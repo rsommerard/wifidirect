@@ -10,6 +10,7 @@ MASTER = ROOT + '/system/Master'
 NODE = ROOT + '/system/Node'
 ANDROID = ROOT + '/android/GPSLocation'
 APK = ANDROID + '/app/build/outputs/apk/app-debug.apk'
+PACKAGE_ACTIVITY = 'fr.inria.rsommerard.gpslocation/.MainActivity'
 
 parser = argparse.ArgumentParser(prog='wifidirect.py', description='WiFi-Direct Emulator')
 parser.add_argument('-n', '--nb-emulators', type=int, default=2)
@@ -17,6 +18,7 @@ parser.add_argument('-bn', '--build-node', action='store_true')
 parser.add_argument('-bm', '--build-master', action='store_true')
 parser.add_argument('-bap', '--build-android-project', action='store_true')
 parser.add_argument('-aprp', '--android-project-root-path', default=ANDROID, type=str)
+parser.add_argument('-aapa', '--android_application_package_activity', default=PACKAGE_ACTIVITY, type=str)
 args = parser.parse_args()
 
 # check and install weave or reset if already installed
@@ -69,7 +71,7 @@ os.chdir(CWD)
 
 # launch master script
 print('Launching master script...')
-subprocess.Popen(['gnome-terminal', '--working-directory', CWD, '-e', 'python3 master.py'])
+subprocess.Popen(['gnome-terminal', '--working-directory', CWD, '-e', 'python3 master.py ' + str(args.nb_emulators)])
 
 # waiting master container
 print('Waiting master container...')
@@ -85,4 +87,4 @@ while 'rsommerard/wifidirect-master' not in output:
 print('Launching node scripts...')
 for i in range(0, args.nb_emulators):
     time.sleep(3)
-    subprocess.Popen(['gnome-terminal', '--working-directory', CWD, '-e', 'python3 node.py'])
+    subprocess.Popen(['gnome-terminal', '--working-directory', CWD, '-e', 'python3 node.py ' + args.android_application_package_activity])
