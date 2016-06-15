@@ -1,27 +1,19 @@
 import os
 import shutil
 import subprocess
+import sys
 
-MASTER = '/home/romain/Lab/WiFiDirect/System/Master'
-DOCKER = MASTER + '/docker'
-TEMP = DOCKER + '/temp'
+DOCKER = os.getcwd()
+MASTER = str.join('/', DOCKER.split('/')[:-1])
 ZIP = MASTER + '/target/universal/wifidirect-master-1.0.zip'
 
 os.chdir(MASTER)
-
-if os.path.exists(TEMP):
-    shutil.rmtree(TEMP)
-
-os.mkdir(TEMP)
-
 subprocess.call(['sbt', 'clean', 'universal:packageBin'])
 
-shutil.copy(ZIP, TEMP)
+if os.path.exists(DOCKER + '/wifidirect-master-1.0.zip'):
+    os.remove(DOCKER + '/wifidirect-master-1.0.zip')
+
+shutil.copy(ZIP, DOCKER)
 
 subprocess.call(['docker', 'build', '-t', 'rsommerard/wifidirect-master', DOCKER])
-
 subprocess.call(['docker', 'push', 'rsommerard/wifidirect-master'])
-
-
-shutil.rmtree(TEMP)
-subprocess.call(['sbt', 'clean'])

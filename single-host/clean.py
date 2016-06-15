@@ -2,6 +2,19 @@ import os
 import subprocess
 import shutil
 
+CWD = os.getcwd()
+ROOT = str.join('/', CWD.split('/')[:-1])
+MASTER = ROOT + '/system/Master'
+NODE = ROOT + '/system/Node'
+
+print('Cleaning Master...')
+os.chdir(MASTER + "/docker")
+subprocess.call(['python3', 'clean.py'])
+
+print('Cleaning Node...')
+os.chdir(NODE + "/docker")
+subprocess.call(['python3', 'clean.py'])
+
 # check and install weave or reset if already installed
 weave = shutil.which('weave')
 

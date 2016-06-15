@@ -1,27 +1,25 @@
 import os
 import shutil
 import subprocess
+import sys
 
-NODE = '/home/romain/Lab/WiFiDirect/System/Node'
-DOCKER = NODE + '/docker'
-TEMP = DOCKER + '/temp'
+APK = sys.argv[1]
+DOCKER = os.getcwd()
+NODE = str.join('/', DOCKER.split('/')[:-1])
 ZIP = NODE + '/target/universal/wifidirect-node-1.0.zip'
 
+if os.path.exists(DOCKER + '/app-debug.apk'):
+    os.remove(DOCKER + '/app-debug.apk')
+
+shutil.copy(APK, DOCKER)
+
 os.chdir(NODE)
-
-if os.path.exists(TEMP):
-    shutil.rmtree(TEMP)
-
-os.mkdir(TEMP)
-
 subprocess.call(['sbt', 'clean', 'universal:packageBin'])
 
-shutil.copy(ZIP, TEMP)
+if os.path.exists(DOCKER + '/wifidirect-node-1.0.zip'):
+    os.remove(DOCKER + '/wifidirect-node-1.0.zip')
+
+shutil.copy(ZIP, DOCKER)
 
 subprocess.call(['docker', 'build', '-t', 'rsommerard/wifidirect-node', DOCKER])
-
 subprocess.call(['docker', 'push', 'rsommerard/wifidirect-node'])
-
-
-shutil.rmtree(TEMP)
-subprocess.call(['sbt', 'clean'])
