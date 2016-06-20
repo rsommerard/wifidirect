@@ -1,7 +1,8 @@
 
-lazy val root = (project in file("."))
-  .enablePlugins(JavaAppPackaging)
-  .settings(name := "WiFiDirect-Master",
+lazy val root = (project in file(".")).
+  enablePlugins(JavaAppPackaging).
+  settings(
+    name := "WiFiDirect-Master",
     version := "1.0",
     scalaVersion := "2.11.8",
     libraryDependencies := Seq(

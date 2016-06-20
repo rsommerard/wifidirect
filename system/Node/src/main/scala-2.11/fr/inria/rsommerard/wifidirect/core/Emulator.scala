@@ -24,6 +24,14 @@ object Emulator {
   }
 
   def isApplicationStarted(packageName: String): Boolean = {
-    Process(s"$ADB -s emulator-5554 shell ps").!!.toString.contains(packageName)
+    if (Process(s"$ADB devices").! != 0)
+      return false
+
+    val isEmulatorStarted: Boolean = Process(s"$ADB devices").!!.trim.contains("emulator-5554")
+
+    if (Process(s"$ADB -s emulator-5554 shell ps").! != 0)
+      return false
+
+    isEmulatorStarted && Process(s"$ADB -s emulator-5554 shell ps").!!.trim.contains(packageName)
   }
 }

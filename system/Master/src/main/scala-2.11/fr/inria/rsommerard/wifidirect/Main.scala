@@ -16,6 +16,7 @@ object Main extends App {
 
   println("Master actor started...")
 
+  print("cmd: ")
   for (ln <- Source.stdin.getLines()) {
     val input = ln.toLowerCase
     if (input == "quit" || input == "exit") {
@@ -23,5 +24,6 @@ object Main extends App {
     } else if (input == "tick") {
       master ! Tick
     }
+    print("cmd: ")
   }
 }

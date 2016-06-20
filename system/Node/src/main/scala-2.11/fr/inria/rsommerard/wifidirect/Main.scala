@@ -4,13 +4,13 @@ import akka.actor.{ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 import fr.inria.rsommerard.wifidirect.core.Emulator
 import fr.inria.rsommerard.wifidirect.core.actor.Node
+import fr.inria.rsommerard.wifidirect.core.message.Ready
 
 object Main extends App {
 
   val packageName: String = args(0).split('/')(0)
 
   val system = ActorSystem("NodeSystem", ConfigFactory.load("node"))
-
   val node = system.actorOf(Props[Node], "node")
 
   println("Node actor started...")
@@ -18,4 +18,6 @@ object Main extends App {
   while (! Emulator.isApplicationStarted(packageName)) {
     Thread.sleep(3000)
   }
+
+  node ! Ready
 }

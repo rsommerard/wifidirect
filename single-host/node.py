@@ -19,6 +19,4 @@ for e in env:
 
 # start node container
 print("Launching wifidirect-node container...")
-subprocess.call(['docker', 'run', '--rm', '-it', '--privileged', 'rsommerard/wifidirect-node'])
-
-input()
+subprocess.call(['docker', 'run', '--rm', '-it', '--privileged', 'rsommerard/wifidirect-node', package_activity_name])

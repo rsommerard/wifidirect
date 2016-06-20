@@ -1,3 +1,3 @@
 package fr.inria.rsommerard.wifidirect.core.message
 
-case object Ready
+case object Ready extends Message

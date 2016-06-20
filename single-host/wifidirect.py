@@ -8,16 +8,21 @@ CWD = os.getcwd()
 ROOT = str.join('/', CWD.split('/')[:-1])
 MASTER = ROOT + '/system/Master'
 NODE = ROOT + '/system/Node'
+UI = ROOT + '/system/UI'
 ANDROID = ROOT + '/android/GPSLocation'
+VIEWER = ROOT + '/viewer'
 APK = ANDROID + '/app/build/outputs/apk/app-debug.apk'
 PACKAGE_ACTIVITY = 'fr.inria.rsommerard.gpslocation/.MainActivity'
 
 parser = argparse.ArgumentParser(prog='wifidirect.py', description='WiFi-Direct Emulator')
 parser.add_argument('-n', '--nb-emulators', type=int, default=2)
 parser.add_argument('-bn', '--build-node', action='store_true')
+parser.add_argument('-bui', '--build-ui', action='store_true')
+parser.add_argument('-vp', '--viewer_path', default=VIEWER, type=str)
 parser.add_argument('-bm', '--build-master', action='store_true')
 parser.add_argument('-bap', '--build-android-project', action='store_true')
 parser.add_argument('-aprp', '--android-project-root-path', default=ANDROID, type=str)
+parser.add_argument('-p', '--push', action='store_true')
 parser.add_argument('-aapa', '--android_application_package_activity', default=PACKAGE_ACTIVITY, type=str)
 args = parser.parse_args()
 
@@ -60,12 +65,33 @@ if args.build_android_project:
 if args.build_master:
     print('Building wifidirect-master...')
     os.chdir(MASTER + "/docker")
-    subprocess.call(['python3', 'build.py'])
+
+    cmd = ['python3', 'build.py']
+    if args.push:
+        cmd.append('-p')
+
+    subprocess.call(cmd)
 
 if args.build_node:
     print('Building wifidirect-node...')
     os.chdir(NODE + "/docker")
-    subprocess.call(['python3', 'build.py', APK])
+
+    cmd = ['python3', 'build.py', '-apk', APK]
+    if args.push:
+        cmd.append('-p')
+
+    subprocess.call(cmd)
+
+if args.build_ui:
+    print('Building wifidirect-ui...')
+    os.chdir(UI + "/docker")
+
+    cmd = ['python3', 'build.py']
+    if args.push:
+        cmd.append('-p')
+
+    subprocess.call(cmd)
+
 
 os.chdir(CWD)
 
@@ -82,6 +108,11 @@ while 'rsommerard/wifidirect-master' not in output:
     time.sleep(3)
     process = subprocess.Popen(['docker', 'ps'], stdout=subprocess.PIPE)
     output = str(process.communicate()[0], 'UTF-8')
+
+# launch ui script
+if args.viewer_path:
+    print('Launching ui scripts...')
+    subprocess.Popen(['gnome-terminal', '--working-directory', CWD, '-e', 'python3 ui.py ' + args.viewer_path])
 
 # launch nodes script
 print('Launching node scripts...')
