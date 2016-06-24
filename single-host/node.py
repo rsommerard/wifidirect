@@ -1,7 +1,10 @@
 import subprocess
 import os
+import sys
 
 print('Node')
+
+package_activity_name = sys.argv[1]
 
 # set weave env before launching containers
 print("Setting weave env...")
@@ -16,4 +19,4 @@ for e in env:
 
 # start node container
 print("Launching wifidirect-node container...")
-subprocess.call(['docker', 'run', '--rm', '-it', '--privileged', 'rsommerard/wifidirect-node'])
+subprocess.call(['docker', 'run', '--rm', '-it', '--privileged', 'rsommerard/wifidirect-node', package_activity_name])

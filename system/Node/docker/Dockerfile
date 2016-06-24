@@ -37,13 +37,13 @@ RUN wget http://downloads.lightbend.com/scala/2.11.8/scala-2.11.8.tgz \
 ENV SCALA_HOME 	/scala-2.11.8
 ENV PATH ${PATH}:${SCALA_HOME}/bin
 
-COPY apk/gpslocation.apk .
-COPY temp/wifidirect-node-1.0.zip .
+COPY entrypoint.sh .
+
+COPY entrypoint.sh .
+COPY app-debug.apk .
+COPY wifidirect-node-1.0.zip .
 
 RUN unzip wifidirect-node-1.0.zip \
   && rm wifidirect-node-1.0.zip
-
-COPY entrypoint.sh .
-
 
 ENTRYPOINT ["/entrypoint.sh"]

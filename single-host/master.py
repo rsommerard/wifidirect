@@ -1,7 +1,10 @@
 import subprocess
 import os
+import sys
 
 print('Master')
+
+nb_nodes = sys.argv[1]
 
 # launch weave
 print("Launching weave...")
@@ -19,4 +22,4 @@ for e in env:
 
 # start master container
 print("Launching wifidirect-master container...")
-subprocess.call(['docker', 'run', '--rm', '-it', '-e', 'WEAVE_CIDR=10.32.0.42/12', 'rsommerard/wifidirect-master'])
+subprocess.call(['docker', 'run', '--rm', '-it', '-e', 'WEAVE_CIDR=10.32.0.42/12', 'rsommerard/wifidirect-master', nb_nodes])

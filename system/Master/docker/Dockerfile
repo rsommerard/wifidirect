@@ -7,7 +7,7 @@ RUN wget http://downloads.lightbend.com/scala/2.11.8/scala-2.11.8.tgz \
 ENV SCALA_HOME 	/scala-2.11.8
 ENV PATH ${PATH}:${SCALA_HOME}/bin
 
-COPY temp/wifidirect-master-1.0.zip .
+COPY wifidirect-master-1.0.zip .
 
 COPY entrypoint.sh .
 
