@@ -19,7 +19,7 @@ for e in env:
 
 # start ui container
 print("Launching wifidirect-ui container...")
-ui = subprocess.Popen(['docker', 'run', '--rm', '-it', 'rsommerard/wifidirect-ui'])
+ui_container = subprocess.Popen(['docker', 'run', '--rm', '-it', 'rsommerard/wifidirect-ui'])
 
 time.sleep(3)
 
@@ -34,7 +34,7 @@ for container in containers:
         process = subprocess.Popen(['docker', 'inspect', '--format', '{{ .NetworkSettings.IPAddress }}', container_id], stdout=subprocess.PIPE)
         container_ip = str(process.communicate()[0], 'UTF-8').strip()
 
-print("Conatainer IP: " + container_ip)
+print("Container IP: " + container_ip)
 
 os.chdir(viewer_path)
 
@@ -46,4 +46,4 @@ with open('config.js', "w+") as cf:
     cf.write("config.url = \"http://" + container_ip + ":8080\";\n")
     cf.write("module.exports = config;\n")
 
-ui.wait()
+ui_container.wait()

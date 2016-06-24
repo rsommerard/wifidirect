@@ -66,6 +66,7 @@ class Master(val nbNodes: Int) extends Actor {
 
   private def sendTick(): Unit = {
     tickValue += 1
+    locations = locations.empty
     context.become(moving)
     nodes.foreach(n => n ! Tick(tickValue))
   }

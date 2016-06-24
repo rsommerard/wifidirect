@@ -24,6 +24,5 @@ object Main extends App {
     } else if (input == "tick") {
       master ! Tick
     }
-    print("cmd: ")
   }
 }

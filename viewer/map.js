@@ -2,6 +2,7 @@ var config = require('./config');
 
 var URL = config.url;
 var markers = [];
+var circles = [];
 var _map;
 var isMapInitialized = false;
 var isIntervalSetted = false;
@@ -40,14 +41,14 @@ function initMap() {
           center: cntr
         });
         isMapInitialized = true;
-      } else {
-        _map.setCenter(cntr);
       }
 
       deleteMarkers();
+      deleteCircles();
       for (var i = 0; i < positions.length; i++) {
         var position = positions[i];
         addMarker(position);
+	addCircle(position);  
       }
     }
   };
@@ -55,9 +56,15 @@ function initMap() {
   xhttp.send();
 
   if (isIntervalSetted === false) {
-    setInterval(initMap, 1000);
+    setInterval(initMap, 3000);
     isIntervalSetted = true;
   }
+}
+
+function clearCircles() {
+    for (var i = 0; i < circles.length; i++) {
+	circles[i].setMap(null);
+    }
 }
 
 function clearMarkers() {
@@ -71,12 +78,36 @@ function deleteMarkers() {
   markers = [];
 }
 
-function addMarker(pos) {
-  var marker = new google.maps.Marker({
-    position: {lat: pos.lat, lng: pos.lon},
-    map: _map
-    //title: pos.id
-  });
+function deleteCircles() {
+    clearCircles();
+    circles = [];
+}
 
+function addCircle(pos) {
+    var circle = new google.maps.Circle({
+	strokeColor: '#ff8080',
+	strokeOpacity: 0.8,
+	strokeWeight: 2,
+	fillColor: '#ff8080',
+	fillOpacity: 0.35,
+	center: {lat: pos.lat, lng: pos.lon},
+	radius: 200,
+	map: _map
+    });
+
+    circles.push(circle);
+}
+
+function addMarker(pos) {
+  var marker = new google.maps.Circle({
+    strokeColor: '#ff8080',
+    strokeOpacity: 1,
+    fillColor: '#ff8080',
+    fillOpacity: 1,
+    radius: 5,
+    center: {lat: pos.lat, lng: pos.lon},
+    map: _map
+  });
+  
   markers.push(marker);
 }
