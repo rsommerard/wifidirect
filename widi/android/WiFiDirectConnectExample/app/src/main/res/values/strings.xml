@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WiFiDirectConnectExample</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+</resources>
