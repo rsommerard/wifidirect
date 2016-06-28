@@ -6,8 +6,8 @@ import argparse
 import time
 
 CWD = os.getcwd()
-PATH = CWD + '/android/WiDiBasicExample'
-PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widibasicexample/.MainActivity'
+PATH = CWD + '/android/WiDiTestingProject'
+PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widitestingproject/.MainActivity'
 FILE = 'widi/src/main/java/fr/inria/rsommerard/widi/core/WiDi.java'
 
 parser = argparse.ArgumentParser(prog='start.py', description='Start two emulator to test the WiDi implementation')
@@ -70,7 +70,7 @@ subprocess.call(['adb', '-s', 'emulator-5554', 'install', '-r', args.path + '/ap
 
 # build the android application for WiDi_Two
 print('Building the android appplication for WiDi_Two...')
-writeWiDiFile(54424, 11113, 11131)
+writeWiDiFile(54421, 11113, 11131)
 subprocess.call(['./gradlew', 'clean', 'assembleDebug'])
 
 # install the application on WiDi_Two

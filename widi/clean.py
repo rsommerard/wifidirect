@@ -28,6 +28,9 @@ for folder in os.listdir("android"):
     os.chdir('android/' + folder)
     print('Cleaning ' + folder + ' project...')
     subprocess.call(['./gradlew', 'clean'])
+    os.chdir(CWD)
 
 # clean server
-os.chdir(CWD + 'WiDiServer')
+os.chdir(CWD + '/WiDiServer')
+print('Cleaning WiDiServer project...')
+subprocess.call(['sbt', 'clean'])

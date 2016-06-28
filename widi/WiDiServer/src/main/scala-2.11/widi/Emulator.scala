@@ -12,7 +12,7 @@ class Emulator(val name: String, val deviceAddress: String, val serverPort: Int,
 
   val device: Device = Device(name, deviceAddress)
 
-  val adbPath = Process("which adb").!!.trim()
+  lazy val adbPath = "/home/romain/Android/Sdk/platform-tools/adb"
 
   var dnsSdServiceResponse: DnsSdServiceResponse = _
   var dnsSdTxtRecord: DnsSdTxtRecord = _

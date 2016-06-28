@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">PrivacyAware</string>
-    <string name="start">Start</string>
-    <string name="stop">Stop</string>
-    <string name="data">Data</string>
-    <string name="process">Process</string>
-</resources>

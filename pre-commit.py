@@ -10,6 +10,7 @@ VIEWER = CWD + '/viewer'
 MASTER = CWD + '/system/Master/docker'
 NODE = CWD + '/system/Node/docker'
 UI = CWD + '/system/UI/docker'
+WIDI = CWD + '/widi'
 
 os.chdir(GPS_LOCATION)
 subprocess.call(['python3', 'clean.py'])
@@ -24,4 +25,7 @@ os.chdir(NODE)
 subprocess.call(['python3', 'clean.py'])
 
 os.chdir(UI)
+subprocess.call(['python3', 'clean.py'])
+
+os.chdir(WIDI)
 subprocess.call(['python3', 'clean.py'])
