@@ -3,6 +3,7 @@ package fr.inria.rsommerard.widi.core;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.util.Log;
 
 import java.net.InetAddress;
@@ -10,7 +11,6 @@ import java.net.UnknownHostException;
 
 import fr.inria.rsommerard.widi.net.NetworkInfo;
 
-import fr.inria.rsommerard.widi.net.wifi.p2p.WifiP2pInfo;
 import fr.inria.rsommerard.widi.net.wifi.p2p.WifiP2pManager;
 
 public class WiDiBroadcastReceiver extends BroadcastReceiver {
