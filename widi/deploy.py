@@ -6,6 +6,7 @@ import argparse
 import time
 
 CWD = os.getcwd()
+SERVER = CWD + '/WiDiServer'
 PATH = CWD + '/android/WiDiTestingProject'
 PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widitestingproject/.MainActivity'
 FILE = 'widi/src/main/java/fr/inria/rsommerard/widi/core/WiDi.java'
@@ -36,6 +37,11 @@ def writeWiDiFile(serverPort, inPort, outPort):
         f.write("}\n")
 
 # build the testing server
+os.chdir(SERVER)
+process = subprocess.Popen(['sbt', 'clean', 'universal:packageBin'], stdout=subprocess.PIPE)
+output = str(process.communicate()[0], 'UTF-8')
+os.chdir(SERVER + '/target/universal')
+subprocess.call(['unzip', 'widiserver-1.0.zip'])
     
 # check if WiDi_One is UP
 process = subprocess.Popen(['adb', '-s', 'emulator-5554', 'shell', 'getprop', 'sys.boot_completed'], stdout=subprocess.PIPE)
@@ -56,6 +62,7 @@ while '1' not in output:
     output = str(process.communicate()[0], 'UTF-8')
 
 # launch the testing server
+subprocess.Popen(['gnome-terminal', '-e', SERVER + '/target/universal/widiserver-1.0/bin/widiserver'])
 
 # build the android application for WiDi_One
 print('Building the android appplication for WiDi_One...')

@@ -38,6 +38,8 @@ while '1' not in output:
     process = subprocess.Popen(['adb', '-s', 'emulator-5554', 'shell', 'getprop', 'sys.boot_completed'], stdout=subprocess.PIPE)
     output = str(process.communicate()[0], 'UTF-8')
 
+time.sleep(3)
+    
 print('Starting WiDi_Two...')
 subprocess.Popen(['emulator', '-avd', 'WiDi_Two', '-port', '5556'])
 
