@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="widiserver" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="root" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/../../target/scala-2.11/classes" />
     <output-test url="file://$MODULE_DIR$/../../target/scala-2.11/test-classes" />
@@ -22,11 +22,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.11.8:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-annotations:2.5.4:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scala-lang:scala-reflect:2.11.8:jar" level="project" />
     <orderEntry type="library" name="SBT: org.scala-stm:scala-stm_2.11:0.7:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scala-lang:scala-reflect:2.11.6:jar" level="project" />
     <orderEntry type="library" name="SBT: org.joda:joda-convert:1.7:jar" level="project" />
     <orderEntry type="library" name="SBT: joda-time:joda-time:2.8.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: commons-net:commons-net:2.0:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe.play:play-json_2.11:2.4.6:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe.play:play-iteratees_2.11:2.4.6:jar" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe.play:play-functional_2.11:2.4.6:jar" level="project" />
@@ -36,6 +37,6 @@
     <orderEntry type="library" name="SBT: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.5.4:jar" level="project" />
     <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-databind:2.5.4:jar" level="project" />
     <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-core:2.5.4:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-annotations:2.5.4:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.11.8:jar" level="project" />
   </component>
 </module>
