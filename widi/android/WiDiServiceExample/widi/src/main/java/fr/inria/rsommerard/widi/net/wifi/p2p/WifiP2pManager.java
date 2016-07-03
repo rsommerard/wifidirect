@@ -1,22 +1,25 @@
 package fr.inria.rsommerard.widi.net.wifi.p2p;
 
 import android.content.Context;
-import android.content.IntentFilter;
 import android.os.Looper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 
-import fr.inria.rsommerard.widi.core.WiDiBroadcastReceiver;
-import fr.inria.rsommerard.widi.core.WiDiIntent;
-import fr.inria.rsommerard.widi.core.thread.CancelConnect;
-import fr.inria.rsommerard.widi.core.thread.Connect;
-import fr.inria.rsommerard.widi.core.thread.DiscoverServices;
+import fr.inria.rsommerard.widi.core.WiDiHandler;
+import fr.inria.rsommerard.widi.core.event.CancelConnectEvent;
+import fr.inria.rsommerard.widi.core.event.ConnectEvent;
+import fr.inria.rsommerard.widi.core.event.DiscoverPeersEvent;
+import fr.inria.rsommerard.widi.core.event.DiscoverServicesEvent;
+import fr.inria.rsommerard.widi.core.event.HelloEvent;
+import fr.inria.rsommerard.widi.core.event.RequestPeersEvent;
+import fr.inria.rsommerard.widi.core.event.StopDiscoveryEvent;
+import fr.inria.rsommerard.widi.core.thread.CancelConnectThread;
+import fr.inria.rsommerard.widi.core.thread.ConnectThread;
+import fr.inria.rsommerard.widi.core.thread.DiscoverServicesThread;
 import fr.inria.rsommerard.widi.net.wifi.p2p.nsd.WifiP2pServiceInfo;
 import fr.inria.rsommerard.widi.net.wifi.p2p.nsd.WifiP2pDnsSdServiceRequest;
-import fr.inria.rsommerard.widi.core.thread.DiscoverPeers;
-import fr.inria.rsommerard.widi.core.thread.Hello;
-import fr.inria.rsommerard.widi.core.thread.RequestPeers;
-import fr.inria.rsommerard.widi.core.thread.StopDiscovery;
 
 public class WifiP2pManager {
 
@@ -41,6 +44,7 @@ public class WifiP2pManager {
     public static final String EXTRA_NETWORK_INFO = "networkInfo";
 
     public static final String EXTRA_WIFI_P2P_INFO = "wifiP2pInfo";
+    private final WiDiHandler mWiDiHandler;
 
     private WifiP2pServiceInfo mWifiP2pServiceInfo;
     private DnsSdServiceResponseListener mDnsSdServiceResponseListener;
@@ -48,7 +52,8 @@ public class WifiP2pManager {
     private WifiP2pDnsSdServiceRequest mWifiP2pDnsSdServiceRequest;
 
     public WifiP2pManager() {
-        new Hello().start();
+        mWiDiHandler = new WiDiHandler();
+        EventBus.getDefault().post(new HelloEvent());
     }
 
     public Channel initialize(final Context context, final Looper looper,
@@ -57,15 +62,15 @@ public class WifiP2pManager {
     }
 
     public void discoverPeers(final Channel channel, final ActionListener actionListener) {
-        new DiscoverPeers(actionListener).start();
+        EventBus.getDefault().post(new DiscoverPeersEvent(actionListener));
     }
 
     public void stopPeerDiscovery(final Channel channel, final ActionListener actionListener) {
-        new StopDiscovery(actionListener).start();
+        EventBus.getDefault().post(new StopDiscoveryEvent(actionListener));
     }
 
     public void requestPeers(final WifiP2pManager.Channel channel, final WifiP2pManager.PeerListListener peerListListener) {
-        new RequestPeers(peerListListener).start();
+        EventBus.getDefault().post(new RequestPeersEvent(peerListListener));
     }
 
     public void addLocalService(final Channel channel, final WifiP2pServiceInfo wifiP2pServiceInfo, final ActionListener actionListener) {
@@ -111,15 +116,16 @@ public class WifiP2pManager {
     }
 
     public void discoverServices(final Channel channel, final ActionListener actionListener) {
-        new DiscoverServices(mWifiP2pServiceInfo, mDnsSdServiceResponseListener, mDnsSdTxtRecordListener, actionListener).start();
+        EventBus.getDefault().post(new DiscoverServicesEvent(mWifiP2pServiceInfo,
+                mDnsSdServiceResponseListener, mDnsSdTxtRecordListener, actionListener));
     }
 
     public void connect(final Channel channel, final WifiP2pConfig wifiP2pConfig, final ActionListener actionListener) {
-        new Connect(wifiP2pConfig, actionListener).start();
+        EventBus.getDefault().post(new ConnectEvent(wifiP2pConfig, actionListener));
     }
 
     public void cancelConnect(final Channel channel, final ActionListener actionListener) {
-        new CancelConnect(actionListener).start();
+        EventBus.getDefault().post(new CancelConnectEvent(actionListener));
     }
 
     public void removeGroup(Channel channel, ActionListener actionListener) {

@@ -7,8 +7,23 @@ import time
 
 CWD = os.getcwd()
 SERVER = CWD + '/WiDiServer'
-PATH = CWD + '/android/WiDiTestingProject'
-PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widitestingproject/.MainActivity'
+
+# WiDiBasicExample
+# PATH = CWD + '/android/WiDiBasicExample'
+# PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widibasicexample/.MainActivity'
+
+# WiDiServiceExample
+# PATH = CWD + '/android/WiDiServiceExample'
+# PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widiserviceexample/.MainActivity'
+
+# WiDiConnectExample
+PATH = CWD + '/android/WiDiConnectExample'
+PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widiconnectexample/.MainActivity'
+
+# WiDiTestingProject
+# PATH = CWD + '/android/WiDiTestingProject'
+# PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widitestingproject/.MainActivity'
+
 FILE = 'widi/src/main/java/fr/inria/rsommerard/widi/core/WiDi.java'
 
 parser = argparse.ArgumentParser(prog='start.py', description='Start two emulator to test the WiDi implementation')
@@ -42,7 +57,7 @@ process = subprocess.Popen(['sbt', 'clean', 'universal:packageBin'], stdout=subp
 output = str(process.communicate()[0], 'UTF-8')
 os.chdir(SERVER + '/target/universal')
 subprocess.call(['unzip', 'widiserver-1.0.zip'])
-    
+
 # check if WiDi_One is UP
 process = subprocess.Popen(['adb', '-s', 'emulator-5554', 'shell', 'getprop', 'sys.boot_completed'], stdout=subprocess.PIPE)
 output = str(process.communicate()[0], 'UTF-8')
@@ -78,13 +93,13 @@ subprocess.call(['adb', '-s', 'emulator-5554', 'install', '-r', args.path + '/ap
 # build the android application for WiDi_Two
 print('Building the android appplication for WiDi_Two...')
 writeWiDiFile(54421, 11113, 11131)
-subprocess.call(['./gradlew', 'clean', 'assembleDebug'])
+# subprocess.call(['./gradlew', 'clean', 'assembleDebug'])
 
 # install the application on WiDi_Two
 print('Uninstalling the old application on WiDi_Two...')
 subprocess.call(['adb', '-s', 'emulator-5556', 'uninstall', PACKAGE_ACTIVITY.split('/')[0]], stdout=subprocess.PIPE)
-print('Installing the application on WiDi_Two...')
-subprocess.call(['adb', '-s', 'emulator-5556', 'install', '-r', args.path + '/app/build/outputs/apk/app-debug.apk'])
+# print('Installing the application on WiDi_Two...')
+# subprocess.call(['adb', '-s', 'emulator-5556', 'install', '-r', args.path + '/app/build/outputs/apk/app-debug.apk'])
 
 subprocess.Popen(['gnome-terminal', '-e', 'adb -s emulator-5554 logcat'])
 subprocess.Popen(['gnome-terminal', '-e', 'adb -s emulator-5556 logcat'])
@@ -94,6 +109,5 @@ print('Launching the application on WiDi_One...')
 subprocess.call(['adb', '-s', 'emulator-5554', 'shell', 'am', 'start', '-n', PACKAGE_ACTIVITY])
 
 # launch the application on WiDi_Two
-print('Launching the application on WiDi_Two...')
-subprocess.call(['adb', '-s', 'emulator-5556', 'shell', 'am', 'start', '-n', PACKAGE_ACTIVITY])
-
+# print('Launching the application on WiDi_Two...')
+# subprocess.call(['adb', '-s', 'emulator-5556', 'shell', 'am', 'start', '-n', PACKAGE_ACTIVITY])

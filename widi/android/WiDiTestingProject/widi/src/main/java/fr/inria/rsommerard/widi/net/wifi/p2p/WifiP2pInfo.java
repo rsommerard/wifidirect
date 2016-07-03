@@ -15,6 +15,12 @@ public class WifiP2pInfo implements Parcelable {
     public InetAddress groupOwnerAddress;
 
     public WifiP2pInfo() {
+        groupFormed = true;
+    }
+
+    public WifiP2pInfo(InetAddress groupOwnerAddress, boolean isGroupOwner) {
+        this.groupOwnerAddress = groupOwnerAddress;
+        this.isGroupOwner = isGroupOwner;
     }
 
     public String toString() {
