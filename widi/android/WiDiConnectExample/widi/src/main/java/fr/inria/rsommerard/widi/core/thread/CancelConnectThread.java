@@ -20,9 +20,8 @@ public class CancelConnectThread extends Thread implements Runnable {
 
     @Override
     public void run() {
-        Socket socket = null;
+        Socket socket = new Socket();
         try {
-            socket = new Socket();
             socket.connect(new InetSocketAddress(WiDi.SERVER_ADDRESS, WiDi.SERVER_PORT), WiDi.SOCKET_TIMEOUT);
             ObjectOutputStream oOStream = new ObjectOutputStream(socket.getOutputStream());
             oOStream.writeObject(Protocol.CANCEL_CONNECT);
@@ -33,6 +32,7 @@ public class CancelConnectThread extends Thread implements Runnable {
 
             if (Protocol.CARTON.equals(ack)) {
                 errorProcess(socket);
+                return;
             }
 
             //socket.close();

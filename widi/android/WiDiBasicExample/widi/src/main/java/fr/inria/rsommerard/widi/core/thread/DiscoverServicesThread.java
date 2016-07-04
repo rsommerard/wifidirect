@@ -72,6 +72,7 @@ public class DiscoverServicesThread extends Thread implements Runnable {
             String carton = (String) oIStream.readObject();
             if (!Protocol.ACK.equals(carton)) {
                 error(socket);
+                return;
             }
 
             // Send DnsSdTxtRecord
@@ -89,6 +90,7 @@ public class DiscoverServicesThread extends Thread implements Runnable {
             carton = (String) oIStream.readObject();
             if (!Protocol.ACK.equals(carton)) {
                 error(socket);
+                return;
             }
 
             // Receive DnsSdServiceResponse

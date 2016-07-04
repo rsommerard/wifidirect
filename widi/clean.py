@@ -7,21 +7,21 @@ import subprocess
 CWD = os.getcwd()
 AVD = os.path.expanduser('~/.android/avd')
 
-# remove WiDi_One
-print('Removing WiDi_One avd...')
-if os.path.exists(AVD + '/WiDi_One.ini'):
-    os.remove(AVD + '/WiDi_One.ini')
+# remove WiDiOne
+print('Removing WiDiOne avd...')
+if os.path.exists(AVD + '/WiDiOne.ini'):
+    os.remove(AVD + '/WiDiOne.ini')
 
-if os.path.exists(AVD + '/WiDi_One.avd'):
-    shutil.rmtree(AVD + '/WiDi_One.avd')
+if os.path.exists(AVD + '/WiDiOne.avd'):
+    shutil.rmtree(AVD + '/WiDiOne.avd')
 
-# remove WiDi_Two
-print('Removing WiDi_Two avd...')
-if os.path.exists(AVD + '/WiDi_Two.ini'):
-    os.remove(AVD + '/WiDi_Two.ini')
+# remove WiDiTwo
+print('Removing WiDiTwo avd...')
+if os.path.exists(AVD + '/WiDiTwo.ini'):
+    os.remove(AVD + '/WiDiTwo.ini')
 
-if os.path.exists(AVD + '/WiDi_Two.avd'):
-    shutil.rmtree(AVD + '/WiDi_Two.avd')
+if os.path.exists(AVD + '/WiDiTwo.avd'):
+    shutil.rmtree(AVD + '/WiDiTwo.avd')
 
 # clean android projects
 for folder in os.listdir("android"):

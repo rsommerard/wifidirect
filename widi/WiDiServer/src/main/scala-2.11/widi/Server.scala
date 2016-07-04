@@ -7,8 +7,8 @@ object Server {
   def start(): Unit = {
     val register = new Register()
 
-    val wiDiOne = new Emulator("emulator-5554", "10.0.2.15", 54412, false, register)
-    val wiDiTwo = new Emulator("emulator-5556", "10.0.2.15", 54421, false, register)
+    val wiDiOne = new Emulator("emulator-5554", "10.0.2.2", 54412, false, register)
+    val wiDiTwo = new Emulator("emulator-5556", "10.0.2.2", 54421, false, register)
 
     register.addEmulator(wiDiOne)
     register.addEmulator(wiDiTwo)

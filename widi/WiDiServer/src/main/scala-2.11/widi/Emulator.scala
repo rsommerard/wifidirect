@@ -119,7 +119,7 @@ class Emulator(val name: String, val deviceAddress: String, val serverPort: Int,
     send(Protocol.ACK)
 
     sendConnectIntent(false)
-    val connectedDevice = register.emulators.filter(e => e.device.deviceAddress == wifiP2pConfig.deviceAddress)
+    val connectedDevice = register.emulators.filter(e => e.device.deviceAddress == wifiP2pConfig.deviceAddress && e != this)
     connectedDevice.head.sendConnectIntent(false)
 
     wifiP2pConfig = null
@@ -137,7 +137,7 @@ class Emulator(val name: String, val deviceAddress: String, val serverPort: Int,
 
     wifiP2pConfig = Json.fromJson[WifiP2pConfig](jsonWifiP2pConfig).get
 
-    val deviceToConnect = register.emulators.filter(e => e.device.deviceAddress == wifiP2pConfig.deviceAddress)
+    val deviceToConnect = register.emulators.filter(e => e.device.deviceAddress == wifiP2pConfig.deviceAddress && e != this)
 
     if (deviceToConnect.isEmpty && deviceToConnect.head.wifiP2pConfig != null &&
       wifiP2pConfig.deviceAddress == deviceToConnect.head.device.deviceAddress) {
@@ -145,10 +145,12 @@ class Emulator(val name: String, val deviceAddress: String, val serverPort: Int,
     }
 
     if (deviceToConnect.isEmpty || deviceToConnect.head.wifiP2pConfig != null) {
-      wifiP2pConfig = null
       send(Protocol.CARTON)
       return
     }
+
+    deviceToConnect.head.wifiP2pConfig = WifiP2pConfig(this.device.deviceAddress, wifiP2pConfig.wps,
+      wifiP2pConfig.netId, 0)
 
     send(Protocol.ACK)
 

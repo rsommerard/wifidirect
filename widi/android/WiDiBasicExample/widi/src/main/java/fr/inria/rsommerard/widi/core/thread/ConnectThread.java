@@ -47,6 +47,7 @@ public class ConnectThread extends Thread implements Runnable {
             String ack = (String) oIStream.readObject();
             if (!Protocol.ACK.equals(ack)) {
                 error(socket);
+                return;
             }
 
             //socket.close();
