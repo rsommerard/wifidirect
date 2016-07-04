@@ -22,32 +22,26 @@ public class WiDiBroadcastReceiver extends BroadcastReceiver {
         if (WiDiIntent.CONNECT.equals(action)) {
             boolean state = intent.getBooleanExtra(WiDiExtra.EXTRA_CONNECT_STATE, false);
 
+            Log.d(WiDi.TAG, WiDiExtra.EXTRA_CONNECT_STATE + " = " + Boolean.toString(state));
+
             Intent ntnt = new Intent(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
 
             NetworkInfo networkInfo = new NetworkInfo(13, 0, "WIFI_P2P", "");
-
             if (state) {
                 networkInfo.setDetailedState(NetworkInfo.DetailedState.CONNECTED, null, null);
-            } else {
-                networkInfo.setDetailedState(NetworkInfo.DetailedState.DISCONNECTED, null, null);
             }
-            networkInfo.setIsAvailable(true);
-            networkInfo.setFailover(false);
-            networkInfo.setRoaming(false);
-
             ntnt.putExtra(WifiP2pManager.EXTRA_NETWORK_INFO, networkInfo);
 
             WifiP2pInfo wifiP2pInfo = new WifiP2pInfo();
 
             if (state) {
                 String groupOwnerAddress = intent.getStringExtra(WiDiExtra.EXTRA_GROUP_OWNER_ADDRESS);
-                wifiP2pInfo = new WifiP2pInfo();
-                wifiP2pInfo.groupFormed = true;
-                wifiP2pInfo.isGroupOwner = intent.getBooleanExtra(WiDiExtra.EXTRA_GROUP_OWNER, false);
+                boolean isGroupOwner = intent.getBooleanExtra(WiDiExtra.EXTRA_GROUP_OWNER, false);
                 try {
-                    wifiP2pInfo.groupOwnerAddress = InetAddress.getByName(groupOwnerAddress);
+                    wifiP2pInfo = new WifiP2pInfo(InetAddress.getByName(groupOwnerAddress), isGroupOwner);
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
+                    Log.e(WiDi.TAG, e.getMessage());
                 }
             }
 

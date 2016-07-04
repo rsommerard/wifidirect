@@ -18,18 +18,18 @@ if 'emulator-5556' in output:
 process = subprocess.Popen(['android', 'list', 'avd'], stdout=subprocess.PIPE)
 output = str(process.communicate()[0], 'UTF-8')
 
-if 'WiDi_One' not in output:
-    print('WiDi_One is not installed')
+if 'WiDiOne' not in output:
+    print('WiDiOne is not installed')
     sys.exit(0)
 
-if 'WiDi_Two' not in output:
-    print('WiDi_Two is not installed')
+if 'WiDiTwo' not in output:
+    print('WiDiTwo is not installed')
     sys.exit(0)
 
-print('Starting WiDi_One...')
-subprocess.Popen(['emulator', '-avd', 'WiDi_One', '-port', '5554'])
+print('Starting WiDiOne...')
+subprocess.Popen(['emulator', '-avd', 'WiDiOne', '-port', '5554'])
 
-# check if WiDi_One is UP
+# check if WiDiOne is UP
 process = subprocess.Popen(['adb', '-s', 'emulator-5554', 'shell', 'getprop', 'sys.boot_completed'], stdout=subprocess.PIPE)
 output = str(process.communicate()[0], 'UTF-8')
 
@@ -38,10 +38,12 @@ while '1' not in output:
     process = subprocess.Popen(['adb', '-s', 'emulator-5554', 'shell', 'getprop', 'sys.boot_completed'], stdout=subprocess.PIPE)
     output = str(process.communicate()[0], 'UTF-8')
 
-print('Starting WiDi_Two...')
-subprocess.Popen(['emulator', '-avd', 'WiDi_Two', '-port', '5556'])
+time.sleep(3)
 
-# check if WiDi_Two is UP
+print('Starting WiDiTwo...')
+subprocess.Popen(['emulator', '-avd', 'WiDiTwo', '-port', '5556'])
+
+# check if WiDiTwo is UP
 process = subprocess.Popen(['adb', '-s', 'emulator-5556', 'shell', 'getprop', 'sys.boot_completed'], stdout=subprocess.PIPE)
 output = str(process.communicate()[0], 'UTF-8')
 
@@ -49,4 +51,3 @@ while '1' not in output:
     time.sleep(3)
     process = subprocess.Popen(['adb', '-s', 'emulator-5556', 'shell', 'getprop', 'sys.boot_completed'], stdout=subprocess.PIPE)
     output = str(process.communicate()[0], 'UTF-8')
-

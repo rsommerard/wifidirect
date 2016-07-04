@@ -66,8 +66,10 @@ public class NetworkInfo implements Parcelable {
         mSubtypeName = subtypeName;
         setDetailedState(DetailedState.IDLE, null, null);
         mState = State.UNKNOWN;
-        mIsAvailable = false;
+        mIsAvailable = true;
         mIsRoaming = false;
+        mIsFailover = false;
+        mDetailedState = NetworkInfo.DetailedState.DISCONNECTED;
     }
 
     public NetworkInfo(NetworkInfo source) {

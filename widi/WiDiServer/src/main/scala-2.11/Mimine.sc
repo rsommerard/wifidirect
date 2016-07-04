@@ -1,3 +1,3 @@
 import sys.process._
 
-"which adb".!!.toString
+"/usr/bin/which adb".!!.toString
