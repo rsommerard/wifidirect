@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import fr.inria.rsommerard.widitestingproject.R;
 import fr.inria.rsommerard.widitestingproject.wifidirect.WiFiDirectManager;
@@ -68,8 +72,15 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i(WiFiDirect.TAG, "Process");
 
-                if (mWiFiDirectManager != null)
-                    mWiFiDirectManager.process();
+                if (mWiFiDirectManager != null) {
+                    ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+                    executor.scheduleAtFixedRate(new Runnable() {
+                        @Override
+                        public void run() {
+                            mWiFiDirectManager.process();
+                        }
+                    }, 0, 110000, TimeUnit.MILLISECONDS);
+                }
             }
         });
 

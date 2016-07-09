@@ -9,6 +9,7 @@ ROOT = str.join('/', CWD.split('/')[:-1])
 MASTER = ROOT + '/system/Master'
 NODE = ROOT + '/system/Node'
 UI = ROOT + '/system/UI'
+SERVICE_DISCOVERY = ROOT + '/system/ServiceDiscovery'
 
 print('Cleaning Master...')
 os.chdir(MASTER + "/docker")
@@ -20,6 +21,10 @@ subprocess.call(['python3', 'clean.py'])
 
 print('Cleaning UI...')
 os.chdir(UI + "/docker")
+subprocess.call(['python3', 'clean.py'])
+
+print('Cleaning ServiceDiscovery...')
+os.chdir(SERVICE_DISCOVERY + "/docker")
 subprocess.call(['python3', 'clean.py'])
 
 # check and install weave or reset if already installed
@@ -48,6 +53,6 @@ for c in cont:
     container_id = c.split()[0]
     container_name = c.split()[1]
 
-    if ('rsommerard/wifidirect-master' in container_name) or ('rsommerard/wifidirect-node' in container_name) or ('rsommerard/wifidirect-ui' in container_name):
+    if ('rsommerard/wifidirect-master' in container_name) or ('rsommerard/wifidirect-node' in container_name) or ('rsommerard/wifidirect-ui' in container_name) or ('rsommerard/wifidirect-service-discovery' in container_name):
         subprocess.call(['docker', 'kill', container_id])
         subprocess.call(['docker', 'rm', '-f', container_id])

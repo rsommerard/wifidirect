@@ -12,29 +12,26 @@ class Node extends Actor {
     Location(50.606755, 3.1446), Location(50.605475, 3.147261), Location(50.605039, 3.149493))
 
   val master = context.actorSelection("akka.tcp://MasterSystem@10.32.0.42:2552/user/master")
+  val serviceDiscovery = context.actorSelection("akka.tcp://ServiceDiscoverySystem@10.32.0.43:2552/user/servicediscovery")
   var ownLocation: Location = _
   var neighbors: Map[ActorRef, Location] = _
   var tickValue: Int = -1
 
   override def preStart() {
-    master ! Hello
+    master ! Hello("Node")
   }
 
-  override def receive: Receive = initializing
-
-  private def initializing: Receive = {
-    case Hello => hello()
+  override def receive: Receive = {
+    case h: Hello => hello(h)
     case Ready => sendReady()
-    case u: Any => dealWithUnknown("initializing", u.getClass.getSimpleName)
+    case t: Tick => tick(t)
+    case ll: LocationList => processNeighbors(ll)
+    case u: Any => dealWithUnknown("receive", u.getClass.getSimpleName)
   }
 
-  private def processing: Receive = {
-    case tick: Tick => {
-      tickValue = tick.value
-      updateLocation()
-    }
-    case ll: LocationList => processNeighbors(ll)
-    case u: Any => dealWithUnknown("processing", u.getClass.getSimpleName)
+  private def tick(t: Tick): Unit = {
+    tickValue = t.value
+    updateLocation()
   }
 
   private def updateLocation(): Unit = {
@@ -42,27 +39,19 @@ class Node extends Actor {
     val rand = new Random()
     ownLocation = testingLocation(rand.nextInt(testingLocation.size))
     Emulator.setGPSLocation(ownLocation.lat, ownLocation.lon)
-    master ! ownLocation
+    serviceDiscovery ! ownLocation
   }
 
   private def processNeighbors(locationList: LocationList): Unit = {
-    neighbors = Map()
-    neighbors = locationList.locations.filter(l => l._1 != self && isInRange(l._2))
+    neighbors = locationList.locations.filter(l => l._1 != self)
     print(s"${neighbors.size} neighbors: $neighbors")
   }
 
   private def sendReady(): Unit = {
-    context.become(processing)
     master ! Ready
   }
 
-  private def hello(): Unit = println(s"Received Hello from master")
+  private def hello(h: Hello): Unit = println(s"Received Hello(${h.msg}) from ${sender.path.address.host.get}")
 
   private def dealWithUnknown(state: String, name: String): Unit = println(s"State $state => Received unknown message ($name)")
-
-  private def isInRange(location: Location): Boolean = {
-    // current range 200m, it seems that WiFi-direct has a range up to 250m
-    if (ownLocation.distance(location) <= 200) true
-    else false
-  }
 }

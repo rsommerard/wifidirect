@@ -77,13 +77,19 @@ public class Active extends Thread implements Runnable {
         List<Data> data = mDataManager.getAllData();
         Collections.shuffle(data);
 
-        int nb = mRandom.nextInt(data.size());
-        Log.i(WiFiDirect.TAG, "Nb data to send: " + nb);
+        //int nb = mRandom.nextInt(data.size());
+        //Log.i(WiFiDirect.TAG, "Nb data to send: " + nb);
 
         List<Data> dataList = new ArrayList<Data>();
-        for (int i = 0; i < nb; i++) {
-            dataList.add(new Data(null, data.get(i).getContent()));
+        if (mRandom.nextBoolean()) {
+            Log.d(WiFiDirect.TAG, "Sending data");
+            dataList.add(new Data(null, data.get(0).getContent()));
+        } else {
+            Log.d(WiFiDirect.TAG, "Random false");
         }
+        //for (int i = 0; i < nb; i++) {
+        //    dataList.add(new Data(null, data.get(i).getContent()));
+        //}
 
         waitAndCheck(socket, Protocol.SEND);
         objectOutputStream.writeObject(DataManager.gsonify(dataList));
@@ -93,9 +99,10 @@ public class Active extends Thread implements Runnable {
 
         waitAndCheck(socket, Protocol.ACK);
 
-        for (int i = 0; i < nb; i++) {
-            mDataManager.removeData(data.get(i));
-        }
+        mDataManager.removeData(data.get(0));
+        //for (int i = 0; i < nb; i++) {
+        //    mDataManager.removeData(data.get(i));
+        //}
     }
 
     private void closeSocket(final Socket socket) {

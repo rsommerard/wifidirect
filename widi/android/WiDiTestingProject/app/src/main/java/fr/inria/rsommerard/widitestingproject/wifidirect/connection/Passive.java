@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import fr.inria.rsommerard.widi.core.WiDi;
 import fr.inria.rsommerard.widitestingproject.WiFiDirect;
 import fr.inria.rsommerard.widitestingproject.dao.Data;
 import fr.inria.rsommerard.widitestingproject.data.DataManager;
@@ -48,13 +49,19 @@ public class Passive extends Thread implements Runnable {
         List<Data> data = mDataManager.getAllData();
         Collections.shuffle(data);
 
-        int nb = mRandom.nextInt(data.size());
-        Log.i(WiFiDirect.TAG, "Nb data to send: " + nb);
+        //int nb = mRandom.nextInt(data.size());
+        //Log.i(WiFiDirect.TAG, "Nb data to send: " + nb);
 
         List<Data> dataList = new ArrayList<Data>();
-        for (int i = 0; i < nb; i++) {
-            dataList.add(new Data(null, data.get(i).getContent()));
+        if (mRandom.nextBoolean()) {
+            Log.d(WiFiDirect.TAG, "Sending data");
+            dataList.add(new Data(null, data.get(0).getContent()));
+        } else {
+            Log.d(WiFiDirect.TAG, "Random false");
         }
+        //for (int i = 0; i < nb; i++) {
+        //  dataList.add(new Data(null, data.get(i).getContent()));
+        //}
 
         waitAndCheck(Protocol.SEND);
         objectOutputStream.writeObject(DataManager.gsonify(dataList));
@@ -64,9 +71,10 @@ public class Passive extends Thread implements Runnable {
 
         waitAndCheck(Protocol.ACK);
 
-        for (int i = 0; i < nb; i++) {
-            mDataManager.removeData(data.get(i));
-        }
+        //for (int i = 0; i < nb; i++) {
+        //    mDataManager.removeData(data.get(i));
+        //}
+        mDataManager.removeData(data.get(0));
     }
 
     private void waitData() throws IOException, ClassNotFoundException, SQLiteConstraintException {

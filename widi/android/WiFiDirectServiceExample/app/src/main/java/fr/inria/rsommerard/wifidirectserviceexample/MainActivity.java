@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "fullDomainName: " + fullDomainName);
                 Log.d(TAG, "txtRecordMap: " + txtRecordMap);
                 Log.d(TAG, "srcDevice: " + srcDevice);
+                srcDevice.status
             }
         });
 

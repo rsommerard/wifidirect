@@ -19,7 +19,7 @@ object Main extends App with SimpleRoutingApp {
   import system.dispatcher
   implicit val timeout = Timeout(3.second)
 
-  val master = system.actorSelection("akka.tcp://MasterSystem@10.32.0.42:2552/user/master")
+  val serviceDiscovery = system.actorSelection("akka.tcp://ServiceDiscoverySystem@10.32.0.43:2552/user/servicediscovery")
 
   lazy val statusRoute = {
     path("status") {
@@ -32,7 +32,7 @@ object Main extends App with SimpleRoutingApp {
   lazy val positionsRoute = {
     path("locations") {
       get {
-        onComplete(master ? UI) {
+        onComplete(serviceDiscovery ? UI) {
           case Success(value) =>
             val locations: Set[Location] = value.asInstanceOf[LocationList].locations.values.toSet
             println(locations)

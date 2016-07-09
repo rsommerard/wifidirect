@@ -11,6 +11,7 @@ ROOT = str.join('/', CWD.split('/')[:-1])
 MASTER = ROOT + '/system/Master'
 NODE = ROOT + '/system/Node'
 UI = ROOT + '/system/UI'
+SERVICE_DISCOVERY = ROOT + '/system/ServiceDiscovery'
 ANDROID = ROOT + '/android/GPSLocation'
 VIEWER = ROOT + '/viewer'
 APK = ANDROID + '/app/build/outputs/apk/app-debug.apk'
@@ -19,7 +20,9 @@ PACKAGE_ACTIVITY = 'fr.inria.rsommerard.gpslocation/.MainActivity'
 parser = argparse.ArgumentParser(prog='wifidirect.py', description='WiFi-Direct Emulator')
 parser.add_argument('-n', '--nb-emulators', type=int, default=2)
 parser.add_argument('-bn', '--build-node', action='store_true')
+parser.add_argument('-ball', '--build-all', action='store_true')
 parser.add_argument('-bui', '--build-ui', action='store_true')
+parser.add_argument('-bsd', '--build-servicediscovery', action='store_true')
 parser.add_argument('-vp', '--viewer_path', default=VIEWER, type=str)
 parser.add_argument('-bm', '--build-master', action='store_true')
 parser.add_argument('-bap', '--build-android-project', action='store_true')
@@ -53,18 +56,18 @@ for c in cont:
     container_id = c.split()[0]
     container_name = c.split()[1]
 
-    if ('rsommerard/wifidirect-master' in container_name) or ('rsommerard/wifidirect-node' in container_name):
+    if ('rsommerard/wifidirect-master' in container_name) or ('rsommerard/wifidirect-node' in container_name) or ('rsommerard/wifidirect-servicediscovery' in container_name):
         subprocess.call(['docker', 'kill', container_id])
         subprocess.call(['docker', 'rm', '-f', container_id])
 
 # build the Android application
-if args.build_android_project:
+if args.build_android_project or args.build_all:
     print('Building the android appplication...')
     os.chdir(args.android_project_root_path)
     subprocess.call(['./gradlew', 'clean', 'assembleDebug'])
 
 # build containers
-if args.build_master:
+if args.build_master or args.build_all:
     print('Building wifidirect-master...')
     os.chdir(MASTER + "/docker")
 
@@ -74,7 +77,7 @@ if args.build_master:
 
     subprocess.call(cmd)
 
-if args.build_node:
+if args.build_node or args.build_all:
     print('Building wifidirect-node...')
     os.chdir(NODE + "/docker")
 
@@ -84,7 +87,17 @@ if args.build_node:
 
     subprocess.call(cmd)
 
-if args.build_ui:
+if args.build_servicediscovery or args.build_all:
+    print('Building wifidirect-servicediscovery...')
+    os.chdir(SERVICE_DISCOVERY + "/docker")
+
+    cmd = ['python3', 'build.py']
+    if args.push:
+        cmd.append('-p')
+
+    subprocess.call(cmd)
+
+if args.build_ui or args.build_all:
     print('Building wifidirect-ui...')
     os.chdir(UI + "/docker")
 
@@ -116,6 +129,10 @@ if args.viewer_path:
     print('Launching ui scripts...')
     subprocess.Popen(['gnome-terminal', '--working-directory', CWD, '-e', 'python3 ui.py ' + args.viewer_path])
 
+# launch service discovery script
+print('Launching servicediscovery script...')
+subprocess.Popen(['gnome-terminal', '--working-directory', CWD, '-e', 'python3 servicediscovery.py '])
+    
 # launch nodes script
 print('Launching node scripts...')
 for i in range(0, args.nb_emulators):

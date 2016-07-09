@@ -7,68 +7,34 @@ class Master(val nbNodes: Int) extends Actor {
 
   var nodes: Set[ActorRef] = Set()
   var nbReadyNodes: Int = 0
-  var locations: Map[ActorRef, Location] = Map()
 
   var tickValue: Int = -1
 
-  override def receive: Receive = initializing
-
-  private def initializing: Receive = {
-    case Hello => hello()
-    case UI => processUI()
-    case u: Any => dealWithUnknown("initializing", u.getClass.getSimpleName)
-  }
-
-  private def waiting: Receive = {
+  override def receive: Receive = {
+    case h: Hello => hello(h)
     case Ready => ready()
-    case UI => processUI()
-    case u: Any => dealWithUnknown("waiting", u.getClass.getSimpleName)
+    case Tick => tick()
+    case u: Any => dealWithUnknown("receive", u.getClass.getSimpleName)
   }
 
-  private def moving: Receive = {
-    case l: Location => processLocation(l)
-    case UI => processUI()
-    case u: Any => dealWithUnknown("moving", u.getClass.getSimpleName)
-  }
+  private def hello(h: Hello): Unit = {
+    println(s"Received Hello(${h.msg}) from ${sender.path.address.host.get}")
+    sender ! Hello("Master")
 
-  private def processing: Receive = {
-    case Tick => sendTick()
-    case UI => processUI()
-    case u: Any => dealWithUnknown("processing", u.getClass.getSimpleName)
-  }
-
-  private def processUI(): Unit = {
-    sender ! LocationList(locations)
-  }
-
-  private def processLocation(location: Location): Unit = {
-    println(s"Received Location from ${sender.path.address.host.get}")
-    locations += (sender -> location)
-    if (locations.size == nbNodes) {
-      println(s"Sending ${locations.size} locations")
-      context.become(processing)
-      broadcast(LocationList(locations))
+    if (h.msg == "Node") {
+      nodes += sender
     }
-  }
-
-  private def hello(): Unit = {
-    println(s"Received Hello from ${sender.path.address.host.get}")
-    nodes += sender
-    sender ! Hello
-    if (nodes.size == nbNodes) context.become(waiting)
   }
 
   private def ready(): Unit = {
     println(s"Received Ready from ${sender.path.address.host.get}")
     nbReadyNodes += 1
-    if (nbReadyNodes == nbNodes) sendTick()
+    if (nbReadyNodes == nbNodes) tick()
   }
 
-  private def sendTick(): Unit = {
+  private def tick(): Unit = {
     tickValue += 1
-    locations = locations.empty
-    context.become(moving)
-    nodes.foreach(n => n ! Tick(tickValue))
+    broadcast(Tick(tickValue))
   }
 
   private def broadcast(message: Message): Unit = nodes.foreach(n => n ! message)
