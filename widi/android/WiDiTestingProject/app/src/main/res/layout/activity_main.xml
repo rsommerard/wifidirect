@@ -10,7 +10,7 @@
     android:orientation="vertical"
     tools:context="fr.inria.rsommerard.widitestingproject.MainActivity">
 
-    <Button
+    <!--<Button
         android:id="@+id/button_start"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
@@ -29,7 +29,7 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="@string/process" />
+        android:text="@string/process" />-->
 
     <Button
         android:id="@+id/button_data"

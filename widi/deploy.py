@@ -100,13 +100,13 @@ subprocess.call(['adb', '-s', 'emulator-5554', 'install', '-r', args.path + '/ap
 # build the android application for WiDiTwo
 print('Building the android appplication for WiDiTwo...')
 writeWiDiFile('WiDiTwo', 54421, 11113, 11131)
-# subprocess.call(['./gradlew', 'clean', 'assembleDebug'])
+subprocess.call(['./gradlew', 'clean', 'assembleDebug'])
 
 # install the application on WiDiTwo
 print('Uninstalling the old application on WiDiTwo...')
 subprocess.call(['adb', '-s', 'emulator-5556', 'uninstall', PACKAGE_ACTIVITY.split('/')[0]], stdout=subprocess.PIPE)
-# print('Installing the application on WiDiTwo...')
-# subprocess.call(['adb', '-s', 'emulator-5556', 'install', '-r', args.path + '/app/build/outputs/apk/app-debug.apk'])
+print('Installing the application on WiDiTwo...')
+subprocess.call(['adb', '-s', 'emulator-5556', 'install', '-r', args.path + '/app/build/outputs/apk/app-debug.apk'])
 
 # cleaning logcat history
 print('cleaning the logcat WiDiOne history...')
@@ -122,5 +122,5 @@ print('Launching the application on WiDiOne...')
 subprocess.call(['adb', '-s', 'emulator-5554', 'shell', 'am', 'start', '-n', PACKAGE_ACTIVITY])
 
 # launch the application on WiDiTwo
-# print('Launching the application on WiDiTwo...')
-# subprocess.call(['adb', '-s', 'emulator-5556', 'shell', 'am', 'start', '-n', PACKAGE_ACTIVITY])
+print('Launching the application on WiDiTwo...')
+subprocess.call(['adb', '-s', 'emulator-5556', 'shell', 'am', 'start', '-n', PACKAGE_ACTIVITY])

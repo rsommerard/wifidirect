@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -20,13 +21,30 @@ import fr.inria.rsommerard.widitestingproject.wifidirect.exception.WiFiException
 public class MainActivity extends AppCompatActivity {
 
     private WiFiDirectManager mWiFiDirectManager;
+    private Random mRandom;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button startButton = (Button) findViewById(R.id.button_start);
+        mRandom = new Random();
+
+        try {
+            mWiFiDirectManager = new WiFiDirectManager(MainActivity.this);
+        } catch (IOException | WiFiException e) {
+            e.printStackTrace();
+        }
+
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        executor.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                mWiFiDirectManager.process();
+            }
+        }, mRandom.nextInt(100000), 110000, TimeUnit.MILLISECONDS);
+
+        /*Button startButton = (Button) findViewById(R.id.button_start);
         assert startButton != null;
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(WiFiDirect.TAG, "Process");
 
                 if (mWiFiDirectManager != null) {
+                    mWiFiDirectManager.process();
+
                     ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
                     executor.scheduleAtFixedRate(new Runnable() {
                         @Override
@@ -82,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     }, 0, 110000, TimeUnit.MILLISECONDS);
                 }
             }
-        });
+        });*/
 
         Button dataButton = (Button) findViewById(R.id.button_data);
         assert dataButton != null;
