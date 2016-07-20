@@ -38,8 +38,6 @@ ENV SCALA_HOME 	/scala-2.11.8
 ENV PATH ${PATH}:${SCALA_HOME}/bin
 
 COPY entrypoint.sh .
-
-COPY entrypoint.sh .
 COPY app-debug.apk .
 COPY wifidirect-node-1.0.zip .
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+    android:orientation="vertical">
+
+	<ImageView
+		android:id="@+id/image"
+		android:layout_width="match_parent"
+		android:layout_height="18dp"
+		android:adjustViewBounds="true"
+		android:contentDescription="@string/content_desc"
+		android:scaleType="fitXY"/>
+
+    <!--<TextView
+        android:id="@+id/item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="12sp"
+        android:singleLine="true">
+    </TextView>-->
+	<!--<ProgressBar
+		android:id="@+id/progress"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:indeterminate="false"
+		android:max="100"
+		android:layout_gravity="bottom"
+		style="@style/ProgressBarStyle" />-->
+
+</LinearLayout>

@@ -9,8 +9,8 @@ CWD = os.getcwd()
 SERVER = CWD + '/WiDiServer'
 
 # WiDiBasicExample
-# PATH = CWD + '/android/WiDiBasicExample'
-# PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widibasicexample/.MainActivity'
+PATH = CWD + '/android/WiDiBasicExample'
+PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widibasicexample/.MainActivity'
 
 # WiDiServiceExample
 # PATH = CWD + '/android/WiDiServiceExample'
@@ -21,8 +21,12 @@ SERVER = CWD + '/WiDiServer'
 # PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widiconnectexample/.MainActivity'
 
 # WiDiTestingProject
-PATH = CWD + '/android/WiDiTestingProject'
-PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widitestingproject/.MainActivity'
+# PATH = CWD + '/android/WiDiTestingProject'
+# PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widitestingproject/.MainActivity'
+
+# Disseminate
+# PATH = CWD + '/android/Disseminate'
+# PACKAGE_ACTIVITY = 'ut.disseminate/.DownloadsActivity'
 
 FILE = 'widi/src/main/java/fr/inria/rsommerard/widi/core/WiDi.java'
 

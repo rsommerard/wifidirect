@@ -4,7 +4,7 @@ import spray.routing.SimpleRoutingApp
 import akka.pattern.ask
 import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
-import fr.inria.rsommerard.wifidirect.core.message.{Location, LocationList, UI}
+import fr.inria.rsommerard.wifidirect.core.message.{Location, Locations, UI}
 
 import scala.concurrent.duration._
 import org.json4s._
@@ -34,7 +34,7 @@ object Main extends App with SimpleRoutingApp {
       get {
         onComplete(serviceDiscovery ? UI) {
           case Success(value) =>
-            val locations: Set[Location] = value.asInstanceOf[LocationList].locations.values.toSet
+            val locations: List[Location] = value.asInstanceOf[Locations].values
             println(locations)
 
             implicit val formats = Serialization.formats(NoTypeHints)

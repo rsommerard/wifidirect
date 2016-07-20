@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/grid"
+    android:layout_width="322dp"
+    android:layout_height="90dp"
+    android:layout_centerHorizontal="true"
+    android:gravity="center"
+    android:horizontalSpacing="2dip"
+    android:numColumns="16"
+    android:stretchMode="columnWidth"
+    android:verticalSpacing="2dip"
+    android:padding="6dip"
+    android:layout_margin="0dp"
+
+    tools:context="ut.disseminate.ImageGridFragment"/>
+
+    <!--android:background="#5677fc"-->

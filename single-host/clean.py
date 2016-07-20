@@ -56,3 +56,17 @@ for c in cont:
     if ('rsommerard/wifidirect-master' in container_name) or ('rsommerard/wifidirect-node' in container_name) or ('rsommerard/wifidirect-ui' in container_name) or ('rsommerard/wifidirect-service-discovery' in container_name):
         subprocess.call(['docker', 'kill', container_id])
         subprocess.call(['docker', 'rm', '-f', container_id])
+
+print('Cleaning other running containers...')
+process = subprocess.Popen(['docker', 'ps', '-q'], stdout=subprocess.PIPE)
+output = str(process.communicate()[0], 'UTF-8')
+lines = output.strip().split('\n')
+for l in lines:
+    subprocess.call(['docker', 'kill', l])
+
+print('Removing stopped containers...')
+process = subprocess.Popen(['docker', 'ps', '-a', '-q'], stdout=subprocess.PIPE)
+output = str(process.communicate()[0], 'UTF-8')
+lines = output.strip().split('\n')
+for l in lines:
+    subprocess.call(['docker', 'rm', l])

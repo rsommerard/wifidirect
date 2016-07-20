@@ -16,12 +16,12 @@ object Main extends App {
 
   println("Master actor started...")
 
-  println("Commands available [quit | exit, tick]")
+  println("Commands available [quit (q) | exit (e), tick (t)]")
   for (ln <- Source.stdin.getLines()) {
     val input = ln.toLowerCase
-    if (input == "quit" || input == "exit") {
+    if (input == "quit" || input == "q" || input == "exit" || input == "e") {
       System.exit(0)
-    } else if (input == "tick") {
+    } else if (input == "tick" || input == "t") {
       master ! Tick
     }
   }

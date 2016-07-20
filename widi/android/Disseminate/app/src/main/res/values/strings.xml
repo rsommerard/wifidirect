@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Disseminate</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="content_desc">Image</string>
+    <string name="download">Download</string>
+    <string name="cancel">Cancel</string>
+    <string name="selectColor">#e59a0f</string>
+</resources>

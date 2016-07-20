@@ -12,10 +12,12 @@ MASTER = ROOT + '/system/Master'
 NODE = ROOT + '/system/Node'
 UI = ROOT + '/system/UI'
 SERVICE_DISCOVERY = ROOT + '/system/ServiceDiscovery'
-ANDROID = ROOT + '/android/GPSLocation'
+# ANDROID = ROOT + '/android/GPSLocation'
+ANDROID = ROOT + '/android/WiDiTestingProject/'
 VIEWER = ROOT + '/viewer'
 APK = ANDROID + '/app/build/outputs/apk/app-debug.apk'
-PACKAGE_ACTIVITY = 'fr.inria.rsommerard.gpslocation/.MainActivity'
+# PACKAGE_ACTIVITY = 'fr.inria.rsommerard.gpslocation/.MainActivity'
+PACKAGE_ACTIVITY = 'fr.inria.rsommerard.widitestingproject/.MainActivity'
 
 parser = argparse.ArgumentParser(prog='wifidirect.py', description='WiFi-Direct Emulator')
 parser.add_argument('-n', '--nb-emulators', type=int, default=2)
@@ -132,7 +134,7 @@ if args.viewer_path:
 # launch service discovery script
 print('Launching servicediscovery script...')
 subprocess.Popen(['gnome-terminal', '--working-directory', CWD, '-e', 'python3 servicediscovery.py '])
-    
+
 # launch nodes script
 print('Launching node scripts...')
 for i in range(0, args.nb_emulators):

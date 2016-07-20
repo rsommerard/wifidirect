@@ -9,7 +9,7 @@ var isIntervalSetted = false;
 
 function computeCenter(positions) {
   if (positions.length == 0) {
-    return 0;
+    return {lat: 0, lng: 0};
   }
 
   var latitude = 0;
@@ -35,11 +35,14 @@ function initMap() {
       var positions = JSON.parse(xhttp.responseText);
       var cntr = computeCenter(positions);
 
-      if (isMapInitialized === false) {
+      if ((isMapInitialized === false) || ((cntr.lat !== _map.center.lat()) && (cntr.lng !== _map.center.lng()))) {
+        console.log("Drawing map...");
+
         _map = new google.maps.Map(document.getElementById('map'), {
           zoom: 15,
           center: cntr
         });
+
         isMapInitialized = true;
       }
 
@@ -48,7 +51,7 @@ function initMap() {
       for (var i = 0; i < positions.length; i++) {
         var position = positions[i];
         addMarker(position);
-	addCircle(position);  
+        addCircle(position);
       }
     }
   };
@@ -63,7 +66,7 @@ function initMap() {
 
 function clearCircles() {
     for (var i = 0; i < circles.length; i++) {
-	circles[i].setMap(null);
+      circles[i].setMap(null);
     }
 }
 
@@ -108,6 +111,6 @@ function addMarker(pos) {
     center: {lat: pos.lat, lng: pos.lon},
     map: _map
   });
-  
+
   markers.push(marker);
 }

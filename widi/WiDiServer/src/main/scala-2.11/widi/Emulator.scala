@@ -6,13 +6,19 @@ import java.net._
 import play.api.libs.json.{JsValue, Json}
 
 import scala.sys.process.Process
+import scala.util.Try
 
 class Emulator(val name: String, val deviceAddress: String, val serverPort: Int, var isDiscoverable: Boolean, val register: Register) {
   val serverSocket: ServerSocket = new ServerSocket(serverPort)
 
   val device: Device = Device(name, deviceAddress)
 
-  val adbPath = "/home/romain/Android/Sdk/platform-tools/adb"
+  val adbPath = {
+    if (Try(Process("/android-sdk-linux/platform-tools/adb version").!).isSuccess)
+      "/android-sdk-linux/platform-tools/adb"
+    else
+      "/home/romain/Android/Sdk/platform-tools/adb"
+  }
 
   var dnsSdServiceResponse: DnsSdServiceResponse = _
   var dnsSdTxtRecord: DnsSdTxtRecord = _
