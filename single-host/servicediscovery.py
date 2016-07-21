@@ -16,4 +16,8 @@ for e in env:
 
 # start master container
 print("Launching wifidirect-servicediscovery container...")
-subprocess.call(['docker', 'run', '--rm', '-it', '-e', 'WEAVE_CIDR=10.32.0.43/12', 'rsommerard/wifidirect-servicediscovery'])
+process = subprocess.Popen(['docker', 'run', '-d', '-e', 'WEAVE_CIDR=10.32.0.43/12', 'rsommerard/wifidirect-servicediscovery'], stdout=subprocess.PIPE)
+output = str(process.communicate()[0], 'UTF-8')
+
+with open('containers.info', 'a+') as f:
+    f.write("ServiceDiscovery=" + output)
