@@ -7,6 +7,7 @@ package fr.inria.rsommerard.widitestingproject.wifidirect.connection;
 //import android.net.wifi.p2p.WifiP2pInfo;
 //import android.net.wifi.p2p.WifiP2pManager;
 
+import fr.inria.rsommerard.widi.core.WiDi;
 import fr.inria.rsommerard.widi.net.NetworkInfo;
 import fr.inria.rsommerard.widi.net.wifi.WpsInfo;
 import fr.inria.rsommerard.widi.net.wifi.p2p.WifiP2pConfig;
@@ -85,15 +86,15 @@ public class ConnectionManager {
     }
 
     public void connect(final Device device) {
-        Log.d(WiFiDirect.TAG, "Connection connect");
+        Log.d(WiDi.TAG, "Connection connect");
 
         if (mNetworkInfo == null) {
-            Log.e(WiFiDirect.TAG, "Network info not yet available");
+            Log.e(WiDi.TAG, "Network info not yet available");
             return;
         }
 
         if (mNetworkInfo.isConnectedOrConnecting()) {
-            Log.e(WiFiDirect.TAG, "Device connected or connecting");
+            Log.e(WiDi.TAG, "Device connected or connecting");
             return;
         }
 
@@ -102,7 +103,7 @@ public class ConnectionManager {
         mExecutor.schedule(new Runnable() {
             @Override
             public void run() {
-                Log.d(WiFiDirect.TAG, "TIMEOUT");
+                Log.d(WiDi.TAG, "TIMEOUT");
                 if (mNetworkInfo.isConnectedOrConnecting()) {
                     if (!mServiceDiscoveryManager.isServiceDiscoveryStarted()) {
                         mServiceDiscoveryManager.startDiscovery();
@@ -120,12 +121,12 @@ public class ConnectionManager {
         mWifiP2pManager.connect(mWifiP2pChannel, wifiP2pConfig, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
-                Log.i(WiFiDirect.TAG, "Connect succeeded");
+                Log.i(WiDi.TAG, "Connect succeeded");
             }
 
             @Override
             public void onFailure(int reason) {
-                Log.e(WiFiDirect.TAG, "Connect failed: " +
+                Log.e(WiDi.TAG, "Connect failed: " +
                         WiFiDirect.getActionListenerFailureName(reason));
                 if (!mServiceDiscoveryManager.isServiceDiscoveryStarted()) {
                     mServiceDiscoveryManager.startDiscovery();
@@ -136,7 +137,7 @@ public class ConnectionManager {
     }
 
     public void disconnect() {
-        Log.d(WiFiDirect.TAG, "Connection disconnect");
+        Log.d(WiDi.TAG, "Connection disconnect");
 
         WifiP2pManager.ActionListener cancelConnectActionListener = new CustomActionListener("Cancel connect succeeded", "Cancel connect failed: ");
         mWifiP2pManager.cancelConnect(mWifiP2pChannel, cancelConnectActionListener);
@@ -156,8 +157,8 @@ public class ConnectionManager {
 
                 WifiP2pInfo wifiP2pInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_INFO);
 
-                Log.d(WiFiDirect.TAG, wifiP2pInfo.toString());
-                Log.d(WiFiDirect.TAG, mNetworkInfo.toString());
+                Log.d(WiDi.TAG, wifiP2pInfo.toString());
+                Log.d(WiDi.TAG, mNetworkInfo.toString());
 
                 if (!mNetworkInfo.isConnected()) {
                     if (!mServiceDiscoveryManager.isServiceDiscoveryStarted()) {

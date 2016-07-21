@@ -13,6 +13,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.inria.rsommerard.widi.core.WiDi;
 import fr.inria.rsommerard.widitestingproject.WiFiDirect;
 import fr.inria.rsommerard.widitestingproject.dao.DaoMaster;
 import fr.inria.rsommerard.widitestingproject.dao.DaoMaster.DevOpenHelper;
@@ -60,7 +61,7 @@ public class DataManager {
 
     public void addData(final Data data) {
         mDataDao.insert(data);
-        Log.i(WiFiDirect.TAG, "Insert " + data.toString());
+        Log.i(WiDi.TAG, "Insert " + data.toString());
     }
 
     public boolean hasData() {

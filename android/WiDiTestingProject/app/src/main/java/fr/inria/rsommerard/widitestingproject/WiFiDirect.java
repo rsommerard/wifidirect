@@ -2,6 +2,7 @@ package fr.inria.rsommerard.widitestingproject;
 
 // WiDi
 //import android.net.wifi.p2p.WifiP2pManager;
+import fr.inria.rsommerard.widi.core.WiDi;
 import fr.inria.rsommerard.widi.net.wifi.p2p.WifiP2pManager;
 //
 
@@ -20,8 +21,6 @@ import fr.inria.rsommerard.widitestingproject.dao.Device;
 import fr.inria.rsommerard.widitestingproject.data.DataManager;
 
 public abstract class WiFiDirect {
-
-    public static final String TAG = "WiDiTestingP";
 
     public static String getRandomIdentifier() {
         Random rand = new Random();
@@ -85,16 +84,16 @@ public abstract class WiFiDirect {
                 deletePersistentGroupMethod.invoke(manager, channel, netid, null);
             }
 
-            Log.i(TAG, "Groups are successfully removed");
+            Log.i(WiDi.TAG, "Groups are successfully removed");
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            Log.e(TAG, "deletePersistentGroup method NOT found");
+            Log.e(WiDi.TAG, "deletePersistentGroup method NOT found");
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-            Log.e(TAG, "deletePersistentGroup failed");
+            Log.e(WiDi.TAG, "deletePersistentGroup failed");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-            Log.e(TAG, "deletePersistentGroup failed");
+            Log.e(WiDi.TAG, "deletePersistentGroup failed");
         }
     }
 
@@ -115,7 +114,7 @@ public abstract class WiFiDirect {
 
     public static String devicesListToString(List<Device> devices) {
         int size = devices.size();
-        Log.i(WiFiDirect.TAG, "Nb devices: " + size);
+        Log.i(WiDi.TAG, "Nb devices: " + size);
 
         StringBuilder str = new StringBuilder("[");
 
@@ -132,13 +131,13 @@ public abstract class WiFiDirect {
 
         str.append("]");
 
-        Log.i(WiFiDirect.TAG, str.toString());
+        Log.i(WiDi.TAG, str.toString());
         return str.toString();
     }
 
     public static String dataListToString(List<Data> data) {
         int size = data.size();
-        Log.i(WiFiDirect.TAG, "Nb data: " + size);
+        Log.i(WiDi.TAG, "Nb data: " + size);
 
         StringBuilder str = new StringBuilder("[");
 

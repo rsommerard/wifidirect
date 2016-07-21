@@ -38,7 +38,7 @@ public class Active extends Thread implements Runnable {
         Socket socket = connect();
 
         if (socket == null) {
-            Log.e(WiFiDirect.TAG, "Cannot open socket with the groupOwner");
+            Log.e(WiDi.TAG, "Cannot open socket with the groupOwner");
             return;
         }
 
@@ -62,7 +62,7 @@ public class Active extends Thread implements Runnable {
 
         List<Data> data = DataManager.deGsonify(gsonStr);
 
-        Log.i(WiFiDirect.TAG, data + " received");
+        Log.i(WiDi.TAG, data + " received");
 
         for (Data d : data) {
             mDataManager.addData(d);
@@ -78,14 +78,14 @@ public class Active extends Thread implements Runnable {
         Collections.shuffle(data);
 
         //int nb = mRandom.nextInt(data.size());
-        //Log.i(WiFiDirect.TAG, "Nb data to send: " + nb);
+        //Log.i(WiDi.TAG, "Nb data to send: " + nb);
 
         List<Data> dataList = new ArrayList<Data>();
         if (mRandom.nextBoolean()) {
-            Log.d(WiFiDirect.TAG, "Sending data");
+            Log.d(WiDi.TAG, "Sending data");
             dataList.add(new Data(null, data.get(0).getContent()));
         } else {
-            Log.d(WiFiDirect.TAG, "Random false");
+            Log.d(WiDi.TAG, "Random false");
         }
         //for (int i = 0; i < nb; i++) {
         //    dataList.add(new Data(null, data.get(i).getContent()));
@@ -95,7 +95,7 @@ public class Active extends Thread implements Runnable {
         objectOutputStream.writeObject(DataManager.gsonify(dataList));
         objectOutputStream.flush();
 
-        Log.d(WiFiDirect.TAG, DataManager.gsonify(dataList) + " sent");
+        Log.d(WiDi.TAG, DataManager.gsonify(dataList) + " sent");
 
         waitAndCheck(socket, Protocol.ACK);
 
@@ -118,14 +118,14 @@ public class Active extends Thread implements Runnable {
         objectOutputStream.writeObject(message);
         objectOutputStream.flush();
 
-        Log.i(WiFiDirect.TAG, message + " sent");
+        Log.i(WiDi.TAG, message + " sent");
     }
 
     private void waitAndCheck(final Socket socket, final String message) throws IOException, ClassNotFoundException {
         ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
         String received = (String) objectInputStream.readObject();
 
-        Log.i(WiFiDirect.TAG, received + " received");
+        Log.i(WiDi.TAG, received + " received");
 
         if (!message.equals(received)) {
             closeSocket(socket);

@@ -2,6 +2,7 @@ package fr.inria.rsommerard.widitestingproject.wifidirect;
 
 // WiDi
 //import android.net.wifi.p2p.WifiP2pManager;
+import fr.inria.rsommerard.widi.core.WiDi;
 import fr.inria.rsommerard.widi.net.wifi.p2p.WifiP2pManager;
 //
 
@@ -23,13 +24,13 @@ public class CustomActionListener implements WifiP2pManager.ActionListener {
     public void onSuccess() {
         // Nothing
         if (mOnSuccessMessage != null) {
-            Log.i(WiFiDirect.TAG, mOnSuccessMessage);
+            Log.i(WiDi.TAG, mOnSuccessMessage);
         }
     }
 
     @Override
     public void onFailure(final int reason) {
-        Log.e(WiFiDirect.TAG, mOnFailureMessage +
+        Log.e(WiDi.TAG, mOnFailureMessage +
                 WiFiDirect.getActionListenerFailureName(reason));
     }
 }

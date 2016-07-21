@@ -50,14 +50,14 @@ public class Passive extends Thread implements Runnable {
         Collections.shuffle(data);
 
         //int nb = mRandom.nextInt(data.size());
-        //Log.i(WiFiDirect.TAG, "Nb data to send: " + nb);
+        //Log.i(WiDi.TAG, "Nb data to send: " + nb);
 
         List<Data> dataList = new ArrayList<Data>();
         if (mRandom.nextBoolean()) {
-            Log.d(WiFiDirect.TAG, "Sending data");
+            Log.d(WiDi.TAG, "Sending data");
             dataList.add(new Data(null, data.get(0).getContent()));
         } else {
-            Log.d(WiFiDirect.TAG, "Random false");
+            Log.d(WiDi.TAG, "Random false");
         }
         //for (int i = 0; i < nb; i++) {
         //  dataList.add(new Data(null, data.get(i).getContent()));
@@ -67,7 +67,7 @@ public class Passive extends Thread implements Runnable {
         objectOutputStream.writeObject(DataManager.gsonify(dataList));
         objectOutputStream.flush();
 
-        Log.d(WiFiDirect.TAG, DataManager.gsonify(dataList) + " sent");
+        Log.d(WiDi.TAG, DataManager.gsonify(dataList) + " sent");
 
         waitAndCheck(Protocol.ACK);
 
@@ -85,7 +85,7 @@ public class Passive extends Thread implements Runnable {
 
         List<Data> data = DataManager.deGsonify(gsonStr);
 
-        Log.i(WiFiDirect.TAG, data + " received");
+        Log.i(WiDi.TAG, data + " received");
 
         for (Data d : data) {
             mDataManager.addData(d);
@@ -106,7 +106,7 @@ public class Passive extends Thread implements Runnable {
         ObjectInputStream objectInputStream = new ObjectInputStream(mSocket.getInputStream());
         String received = (String) objectInputStream.readObject();
 
-        Log.d(WiFiDirect.TAG, received + " received");
+        Log.d(WiDi.TAG, received + " received");
 
         if (!message.equals(received)) {
             closeSocket();
@@ -118,6 +118,6 @@ public class Passive extends Thread implements Runnable {
         objectOutputStream.writeObject(message);
         objectOutputStream.flush();
 
-        Log.d(WiFiDirect.TAG, message + " sent");
+        Log.d(WiDi.TAG, message + " sent");
     }
 }

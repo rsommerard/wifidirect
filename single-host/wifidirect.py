@@ -50,6 +50,10 @@ for c in cont:
         print("Please remove running or stopped containers before launch new instances.")
         sys.exit(1)
 
+if os.path.exists('log'):
+    print('Please remove the log folder before launch new instances.')
+    sys.exit(1)
+
 # check and install weave or reset if already installed
 weave = shutil.which('weave')
 

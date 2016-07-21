@@ -6,6 +6,7 @@ import android.util.Log;
 
 import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.QueryBuilder;
+import fr.inria.rsommerard.widi.core.WiDi;
 import fr.inria.rsommerard.widitestingproject.WiFiDirect;
 import fr.inria.rsommerard.widitestingproject.dao.DaoMaster;
 import fr.inria.rsommerard.widitestingproject.dao.DaoMaster.DevOpenHelper;
@@ -83,12 +84,12 @@ public class DeviceManager {
         device.setId(d.getId());
 
         mDeviceDao.update(device);
-        Log.i(WiFiDirect.TAG, "Update " + d.toString() + " to " + device.toString());
+        Log.i(WiDi.TAG, "Update " + d.toString() + " to " + device.toString());
     }
 
     public void addDevice(final Device device) {
         mDeviceDao.insert(device);
-        Log.i(WiFiDirect.TAG, "Insert " + device.toString());
+        Log.i(WiDi.TAG, "Insert " + device.toString());
     }
 
     public void deleteAll() {

@@ -3,6 +3,7 @@ package fr.inria.rsommerard.widitestingproject.wifidirect;
 // WiDi
 //import android.net.wifi.p2p.WifiP2pManager;
 
+import fr.inria.rsommerard.widi.core.WiDi;
 import fr.inria.rsommerard.widi.net.wifi.p2p.WifiP2pManager;
 //
 
@@ -56,7 +57,7 @@ public class WiFiDirectManager {
         if (mDeviceManager.hasDevices() && mDataManager.hasData()) {
             mConnectionManager.connect(mDeviceManager.getDevice());
         } else {
-            Log.d(WiFiDirect.TAG, "No device or data to send available");
+            Log.d(WiDi.TAG, "No device or data to send available");
         }
     }
 
@@ -86,13 +87,13 @@ public class WiFiDirectManager {
     public void printData() {
         String str = WiFiDirect.dataListToString(mDataManager.getAllData());
 
-        Log.i(WiFiDirect.TAG, str);
+        Log.i(WiDi.TAG, str);
     }
 
     private class CustomChannelListener implements WifiP2pManager.ChannelListener {
         @Override
         public void onChannelDisconnected() {
-            Log.i(WiFiDirect.TAG, "Channel disconnected");
+            Log.i(WiDi.TAG, "Channel disconnected");
         }
     }
 }

@@ -9,6 +9,10 @@ if not os.path.exists('containers.info'):
     print('The containers.info file does not exist.')
     sys.exit(1)
 
+if not os.path.exists('log'):
+    print('The log folder does not exist.')
+    sys.exit(1)
+
 with open('containers.info', 'r') as f:
     content = f.read().strip()
 
@@ -20,7 +24,7 @@ for c in csplit:
     process = subprocess.Popen(['docker', 'logs', id], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output = str(process.communicate()[0], 'UTF-8')
 
-    with open(name + '_' + id + '.log', 'w+') as f:
+    with open('log/' + name + '_' + id + '.log', 'w+') as f:
         f.write(output)
 
 print('Done.')

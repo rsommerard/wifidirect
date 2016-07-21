@@ -2,8 +2,12 @@
 
 import os
 import subprocess
+import shutil
 
-print('Cleaning info and log files....')
+print('Cleaning info file and log folder....')
+if os.path.exists('log'):
+    shutil.rmtree('log')
+
 filelist = [ f for f in os.listdir() if f.endswith('.log') or f.endswith('.info') ]
 for f in filelist:
     os.remove(f)

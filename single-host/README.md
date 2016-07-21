@@ -28,7 +28,7 @@ Specific launching scripts for each container.
 
 ### dclean.py
 
-Removes the info file and the log files
+Removes the info file and the log folder
 It also kills all running containers and deletes stopped containers.
 
 Usage: `./dclean.py`

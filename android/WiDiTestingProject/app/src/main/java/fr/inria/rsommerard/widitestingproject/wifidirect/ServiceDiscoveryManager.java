@@ -6,6 +6,7 @@ package fr.inria.rsommerard.widitestingproject.wifidirect;
 //import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo;
 //import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceRequest;
 
+import fr.inria.rsommerard.widi.core.WiDi;
 import fr.inria.rsommerard.widi.net.wifi.p2p.WifiP2pDevice;
 import fr.inria.rsommerard.widi.net.wifi.p2p.WifiP2pManager;
 import fr.inria.rsommerard.widi.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo;
@@ -61,7 +62,7 @@ public class ServiceDiscoveryManager {
     }
 
     public void initialize() {
-        Log.d(WiFiDirect.TAG, "initialize()");
+        Log.d(WiDi.TAG, "initialize()");
 
         mWifiP2pDnsSdServiceInfo = WifiP2pDnsSdServiceInfo.newInstance(SERVICE_NAME, SERVICE_TYPE, null);
         mAddLocalServiceActionListener = new CustomActionListener(null, "Add local service failed: ");
@@ -82,10 +83,10 @@ public class ServiceDiscoveryManager {
     }
 
     public void startDiscovery() {
-        Log.d(WiFiDirect.TAG, "Start service discovery");
+        Log.d(WiDi.TAG, "Start service discovery");
 
         if (mExecutor != null) {
-            Log.i(WiFiDirect.TAG, "Service discovery already started");
+            Log.i(WiDi.TAG, "Service discovery already started");
             return;
         }
 
@@ -118,7 +119,7 @@ public class ServiceDiscoveryManager {
     }
 
     public void stopDiscovery() {
-        Log.d(WiFiDirect.TAG, "Stop service discovery");
+        Log.d(WiDi.TAG, "Stop service discovery");
         if (mExecutor != null)
             mExecutor.shutdown();
 
@@ -181,16 +182,16 @@ public class ServiceDiscoveryManager {
         @Override
         public void onDnsSdServiceAvailable(final String instanceName, final String registrationType, final WifiP2pDevice srcDevice) {
             // Nothing
-            //Log.i(WiFiDirect.TAG, "DnsSdService available");
+            //Log.i(WiDi.TAG, "DnsSdService available");
         }
     }
 
     private class CustomDnsSdTxtRecordListener implements WifiP2pManager.DnsSdTxtRecordListener {
         @Override
         public void onDnsSdTxtRecordAvailable(final String fullDomainName, final Map<String, String> txtRecordMap, final WifiP2pDevice srcDevice) {
-            // Log.i(WiFiDirect.TAG, "DnsSdTxtRecord available");
-            // Log.i(WiFiDirect.TAG, srcDevice.toString());
-            Log.i(WiFiDirect.TAG, srcDevice.deviceName + " available");
+            // Log.i(WiDi.TAG, "DnsSdTxtRecord available");
+            // Log.i(WiDi.TAG, srcDevice.toString());
+            Log.i(WiDi.TAG, srcDevice.deviceName + " available");
 
             if (isValidDnsSdTxtRecord(fullDomainName, srcDevice)) {
                 Device device = new Device();
