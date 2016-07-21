@@ -44,5 +44,4 @@ echo 'Launching application...'
 adb -e shell am start -n $1
 
 echo 'Running...'
-adb -e logcat
-# read
+adb -e logcat | grep WiDi

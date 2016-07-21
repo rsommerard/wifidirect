@@ -5,7 +5,7 @@ import time
 
 print('UI')
 
-viewer_path = sys.argv[1]
+VIEWER = '/home/romain/Lab/wifidirect/viewer'
 
 # set weave env before launching containers
 print("Setting weave env...")
@@ -19,7 +19,11 @@ for e in env:
 
 # start ui container
 print("Launching wifidirect-ui container...")
-ui_container = subprocess.Popen(['docker', 'run', '--rm', '-it', 'rsommerard/wifidirect-ui'])
+process = subprocess.Popen(['docker', 'run', '-d', 'rsommerard/wifidirect-ui'], stdout=subprocess.PIPE)
+output = str(process.communicate()[0], 'UTF-8')
+
+with open('containers.info', 'a+') as f:
+    f.write("UI=" + output)
 
 time.sleep(3)
 
@@ -36,7 +40,7 @@ for container in containers:
 
 print("Container IP: " + container_ip)
 
-os.chdir(viewer_path)
+os.chdir(VIEWER)
 
 if os.path.exists('config.js'):
     os.remove('config.js')
@@ -45,5 +49,3 @@ with open('config.js', "w+") as cf:
     cf.write("var config = {};\n")
     cf.write("config.url = \"http://" + container_ip + ":8080\";\n")
     cf.write("module.exports = config;\n")
-
-ui_container.wait()
