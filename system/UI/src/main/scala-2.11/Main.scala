@@ -35,7 +35,6 @@ object Main extends App with SimpleRoutingApp {
         onComplete(serviceDiscovery ? UI) {
           case Success(value) =>
             val locations: List[Location] = value.asInstanceOf[Locations].values
-            println(locations)
 
             implicit val formats = Serialization.formats(NoTypeHints)
             complete(write(locations))

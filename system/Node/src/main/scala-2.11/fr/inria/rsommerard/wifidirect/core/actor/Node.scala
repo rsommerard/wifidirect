@@ -7,14 +7,12 @@ import fr.inria.rsommerard.wifidirect.core.widi.Emulator
 import scala.util.Random
 
 class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
-
-  val testingLocations: List[Location] = List(Location(50.605611, 3.138421), Location(50.605747, 3.141081),
-    Location(50.606755, 3.1446), Location(50.605475, 3.147261), Location(50.605039, 3.149493))
-
   val master = context.actorSelection("akka.tcp://MasterSystem@10.32.0.42:2552/user/master")
   val serviceDiscovery = context.actorSelection("akka.tcp://ServiceDiscoverySystem@10.32.0.43:2552/user/servicediscovery")
 
   var neighbors: List[Neighbor] = List()
+  var scenario: Scenario = _
+  var currentScenarioIndex = -1
 
   override def preStart() {
     master ! Hello("Node")
@@ -24,36 +22,42 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   override def receive: Receive = {
     case h: Hello => hello(h)
     case Ready => ready()
-    case Tick => tick()
+    case t: Tick => tick(t)
     case d: Discoverable => discoverable(d)
     case c: Connect => connect(c)
     case d: Disconnect => disconnect(d)
     case s: Service => service(s)
     case s: Services => services(s)
+    case s: Scenario => scenario(s)
     case r: Request => request(r)
     case nghbrs: Neighbors => neighbors(nghbrs)
     case u: Any => dealWithUnknown("receive", u.getClass.getSimpleName)
   }
 
   private def service(s: Service): Unit = {
-    //println(s"Received Service: $s")
-
     serviceDiscovery ! s
   }
 
-  private def services(s: Services): Unit = {
-    //println(s"Received Services: $s")
+  private def scenario(s: Scenario): Unit = {
+    scenario = s
+  }
 
+  private def services(s: Services): Unit = {
     emulator.updateServices(s.values)
   }
 
-  private def tick(): Unit = {
-    //println(s"Received Tick")
+  private def tick(t: Tick): Unit = {
+    println("#+#+#+#+#")
+    println(s"#+#+#+#+# Tick: ${t.value}")
+    println("#+#+#+#+#")
+
     updateLocation()
   }
 
   private def disconnect(d: Disconnect): Unit = {
-    println(s"Received Disconnect: $d")
+    println("#+#+#+#+#")
+    println(s"#+#+#+#+# Received Disconnect: $d")
+    println("#+#+#+#+#")
 
     if (d.weaveIp != weaveIp) {
       serviceDiscovery ! d
@@ -61,7 +65,10 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   }
 
   private def connect(c: Connect): Unit = {
-    println(s"Received Connect: $c")
+    println("#+#+#+#+#")
+    println(s"#+#+#+#+# Received Connect: $c")
+    println("#+#+#+#+#")
+
 
     c.weaveIpTo match {
       case `weaveIp` => emulator.connectExt(c.weaveIpFrom, c.groupOwnerIp)
@@ -70,8 +77,6 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   }
 
   private def discoverable(d: Discoverable): Unit = {
-    //println(s"Received Discoverable: $d")
-
     serviceDiscovery ! d
   }
 
@@ -82,15 +87,27 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   }
 
   private def updateLocation(): Unit = {
-    val rand = new Random()
-    val ownLocation: Location = testingLocations(rand.nextInt(testingLocations.size))
+    currentScenarioIndex += 1
+    if (currentScenarioIndex >= scenario.locations.size) {
+      println("#+#+#+#+#")
+      println(s"#+#+#+#+# No more locations to set")
+      println("#+#+#+#+#")
+
+      return
+    }
+
+    val ownLocation: Location = scenario.locations(currentScenarioIndex)
     Emulator.setGPSLocation(ownLocation.lat, ownLocation.lon)
     serviceDiscovery ! ownLocation
   }
 
   private def neighbors(nghbrs: Neighbors): Unit = {
     neighbors = nghbrs.values.filter(n => n.weaveIp != emulator.weaveIp)
-    //print(s"${neighbors.size} neighbors: $neighbors")
+
+    println("#+#+#+#+#")
+    println(s"#+#+#+#+# ${neighbors.size} neighbors: $neighbors")
+    println("#+#+#+#+#")
+
     emulator.updateNeighbors(neighbors)
     emulator.sendPeersChangedIntent()
   }
@@ -99,7 +116,15 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
     master ! Ready
   }
 
-  private def hello(h: Hello): Unit = println(s"Received Hello: $h")
+  private def hello(h: Hello): Unit =  {
+    println("#+#+#+#+#")
+    println(s"#+#+#+#+# Received Hello: $h")
+    println("#+#+#+#+#")
+  }
 
-  private def dealWithUnknown(state: String, name: String): Unit = println(s"State $state => Received unknown message ($name)")
+  private def dealWithUnknown(state: String, name: String): Unit = {
+    println("#+#+#+#+#")
+    println(s"#+#+#+#+# State $state => Received unknown message ($name)")
+    println("#+#+#+#+#")
+  }
 }

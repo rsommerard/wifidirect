@@ -25,25 +25,35 @@ class ServiceDiscovery extends Actor {
     case l: Location => location(l)
     case d: Discoverable => discoverable(d)
     case s: Service => service(s)
+    case t: Tick => tick(t)
     case Neighbors => neighbors()
     case u: Any => dealWithUnknown("receive", u.getClass.getSimpleName)
   }
 
   private def service(s: Service): Unit = {
-    //println(s"Received Service from ${sender.path.address.host.get}")
-
     services += (sender -> s)
 
     sender ! Services(services.values.toList)
   }
 
+  private def tick(t: Tick): Unit = {
+    println("#+#+#+#+#")
+    println(s"#+#+#+#+# Tick: ${t.value}")
+    println("#+#+#+#+#")
+  }
+
   private def connect(c: Connect): Unit = {
-    println(s"Received Connect(${c.weaveIpFrom}, ${c.weaveIpTo}, ${c.groupOwnerIp}) from ${sender.path.address.host.get}")
+    println("#+#+#+#+#")
+    println(s"#+#+#+#+# Received Connect(${c.weaveIpFrom}, ${c.weaveIpTo}, ${c.groupOwnerIp}) from ${sender.path.address.host.get}")
+    println("#+#+#+#+#")
 
     val sel = ipNodes.filter(e => e._2 == c.weaveIpTo)
 
     if (sel.isEmpty) {
-      println(s"No device found")
+      println("#+#+#+#+#")
+      println(s"#+#+#+#+# No device found")
+      println("#+#+#+#+#")
+
       return
     }
 
@@ -51,12 +61,17 @@ class ServiceDiscovery extends Actor {
   }
 
   private def disconnect(d: Disconnect): Unit = {
-    println(s"Received Disconnect(${d.weaveIp}) from ${sender.path.address.host.get}")
+    println("#+#+#+#+#")
+    println(s"#+#+#+#+# Received Disconnect(${d.weaveIp}) from ${sender.path.address.host.get}")
+    println("#+#+#+#+#")
 
     val sel = ipNodes.filter(e => e._2 == d.weaveIp)
 
     if (sel.isEmpty) {
-      println(s"No device found")
+      println("#+#+#+#+#")
+      println(s"#+#+#+#+# No device found")
+      println("#+#+#+#+#")
+
       return
     }
 
@@ -64,16 +79,11 @@ class ServiceDiscovery extends Actor {
   }
 
   private def ip(i: IP): Unit = {
-    //println(s"Received IP(${i.value}) from ${sender.path.address.host.get}")
-
     ipNodes += (sender -> i.value)
   }
 
   private def discoverable(d: Discoverable): Unit = {
-    //println(s"Received Discoverable(${d.value}) from ${sender.path.address.host.get}")
-
     discoverables += (sender -> d.value)
-    //println(s"discoverables: $discoverables")
   }
 
   private def ui(): Unit = {
@@ -81,19 +91,21 @@ class ServiceDiscovery extends Actor {
   }
 
   private def neighbors(): Unit = {
-    //println(s"Received Location from ${sender.path.address.host.get}")
-
     if (!discoverables(sender)) {
-      println(s"${sender.path.address.host.get} is not discoverable")
+      println("#+#+#+#+#")
+      println(s"#+#+#+#+# ${sender.path.address.host.get} is not discoverable")
+      println("#+#+#+#+#")
+
       return
     }
-
-    //println(s"locations: $locations")
 
     val loc: Option[Location] = locations.get(sender)
 
     if (loc.isEmpty) {
-      println(s"No Location found for ${sender.path.address.host.get}")
+      println("#+#+#+#+#")
+      println(s"#+#+#+#+# No Location found for ${sender.path.address.host.get}")
+      println("#+#+#+#+#")
+
       return
     }
 
@@ -112,14 +124,13 @@ class ServiceDiscovery extends Actor {
 
 
   private def location(loc: Location): Unit = {
-    //println(s"Received Location from ${sender.path.address.host.get}")
-
     locations += (sender -> loc)
-    //println(s"locations: $locations")
   }
 
   private def hello(h: Hello): Unit = {
-    println(s"Received Hello(${h.name}) from ${sender.path.address.host.get}")
+    println("#+#+#+#+#")
+    println(s"#+#+#+#+# Received Hello(${h.name}) from ${sender.path.address.host.get}")
+    println("#+#+#+#+#")
   }
 
   private def areInRange(l1: Location, l2: Location): Boolean = {
@@ -137,5 +148,9 @@ class ServiceDiscovery extends Actor {
     distance <= 200
   }
 
-  private def dealWithUnknown(state: String, name: String): Unit = println(s"State $state => Received unknown message ($name)")
+  private def dealWithUnknown(state: String, name: String): Unit = {
+    println("#+#+#+#+#")
+    println(s"#+#+#+#+# State $state => Received unknown message ($name)")
+    println("#+#+#+#+#")
+  }
 }

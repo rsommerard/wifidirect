@@ -10,7 +10,7 @@ IP=$(ip addr list eth0 | grep 'inet ' | cut -d' ' -f6 | cut -d/ -f1)
 echo "Configuring redir for $ME..."
 redir --laddr=$ME --lport=11131 --caddr=127.0.0.1 --cport=11131 &
 
-./wifidirect-node-1.0/bin/wifidirect-node $1 $ME > /widi/log/${ME}_server.log &
+./wifidirect-node-1.0/bin/wifidirect-node $1 $ME & # > /widi/log/${ME}_server.log &
 
 echo 'Starting emulator[5554]...'
 emulator64-x86 -avd AndroidAPI22x86 -no-skin -no-audio -no-window -no-boot-anim -noskin -gpu off -port 5554 &
@@ -44,4 +44,4 @@ echo 'Launching application...'
 adb -e shell am start -n $1
 
 echo 'Running...'
-adb -e logcat | grep WiDi > /widi/log/${ME}_emulator.log
+adb -e logcat | grep WiDi # > /widi/log/${ME}_emulator.log

@@ -1,3 +1,3 @@
 package fr.inria.rsommerard.wifidirect.core.message
 
-case object Tick
+case class Tick(value: Int)

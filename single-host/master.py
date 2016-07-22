@@ -22,8 +22,4 @@ for e in env:
 
 # start master container
 print("Launching wifidirect-master container...")
-process = subprocess.Popen(['docker', 'run', '-d', '-e', 'WEAVE_CIDR=10.32.0.42/12', 'rsommerard/wifidirect-master', nb_nodes], stdout=subprocess.PIPE)
-output = str(process.communicate()[0], 'UTF-8')
-
-with open('containers.info', 'a+') as f:
-    f.write("Master=" + output)
+subprocess.call(['docker', 'run', '-it', '-e', 'WEAVE_CIDR=10.32.0.42/12', 'rsommerard/wifidirect-master', nb_nodes])

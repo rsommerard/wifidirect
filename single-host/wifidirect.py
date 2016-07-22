@@ -117,7 +117,8 @@ os.chdir(SCRIPTS)
 
 # launch master script
 print('Launching master script...')
-subprocess.call(['python3', 'master.py', str(args.nb_emulators)])
+subprocess.Popen(['gnome-terminal', '--working-directory', SCRIPTS, '-e', 'python3 master.py ' + str(args.nb_emulators)])
+# subprocess.call(['python3', 'master.py', str(args.nb_emulators)])
 
 # waiting master container
 print('Waiting master container...')

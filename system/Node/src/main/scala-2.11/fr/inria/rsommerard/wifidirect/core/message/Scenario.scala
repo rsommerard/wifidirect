@@ -1,3 +1,3 @@
 package fr.inria.rsommerard.wifidirect.core.message
 
-case class Tick(value: Int)
+case class Scenario(locations: List[Location])

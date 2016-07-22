@@ -13,6 +13,17 @@ if not os.path.exists('log'):
     print('The log folder does not exist.')
     sys.exit(1)
 
+print('Adding Master in containers.info file.')
+process = subprocess.Popen(['docker', 'ps', '-a'], stdout=subprocess.PIPE)
+output = str(process.communicate()[0], 'UTF-8')
+
+if 'rsommerard/wifidirect-master' in output:
+    entries = output.strip().split('\n')
+    for entry in entries:
+        if 'rsommerard/wifidirect-master' in entry:
+            with open('containers.info', 'a+') as f:
+                f.write("Master=" + entry.split()[0])
+
 with open('containers.info', 'r') as f:
     content = f.read().strip()
 
