@@ -27,6 +27,7 @@ public class Passive extends Thread implements Runnable {
         mSocket = socket;
         mDataManager = dataManager;
         mRandom = new Random();
+        mRandom.setSeed(42L);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class Passive extends Thread implements Runnable {
         List<Data> dataList = new ArrayList<Data>();
         if (mRandom.nextBoolean()) {
             Log.d(WiDi.TAG, "Sending data");
-            dataList.add(new Data(null, data.get(0).getContent()));
+            dataList.add(new Data(null, data.get(0).getContent(), data.get(0).getIdentifier()));
         } else {
             Log.d(WiDi.TAG, "Random false");
         }

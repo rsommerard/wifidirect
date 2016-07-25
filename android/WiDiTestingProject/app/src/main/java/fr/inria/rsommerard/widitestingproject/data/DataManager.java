@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import fr.inria.rsommerard.widi.core.WiDi;
 import fr.inria.rsommerard.widitestingproject.WiFiDirect;
@@ -23,7 +24,7 @@ import fr.inria.rsommerard.widitestingproject.dao.DataDao;
 
 public class DataManager {
 
-    private final SecureRandom mRandom;
+    private final Random mRandom;
     private final DataDao mDataDao;
 
     public DataManager(final Context context) {
@@ -35,7 +36,8 @@ public class DataManager {
 
         mDataDao.deleteAll(); // TODO: Delete this line
 
-        mRandom = new SecureRandom();
+        mRandom = new Random();
+        mRandom.setSeed(42L);
     }
 
     public Data getData() {

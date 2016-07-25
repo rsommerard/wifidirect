@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 
 import fr.inria.rsommerard.widitestingproject.dao.Data;
@@ -23,14 +24,12 @@ import fr.inria.rsommerard.widitestingproject.data.DataManager;
 public abstract class WiFiDirect {
 
     public static String getRandomIdentifier() {
-        Random rand = new Random();
-
-        return Integer.toString(rand.nextInt(100000));
+        return UUID.randomUUID().toString();
     }
 
     public static void populateDataTable(final DataManager dataManager, final int nbData) {
         for (int i = 0; i < nbData; i++) {
-            Data d = new Data(null, getRandomContent());
+            Data d = new Data(null, getRandomContent(), getRandomIdentifier());
             dataManager.addData(d);
         }
     }
@@ -146,7 +145,7 @@ public abstract class WiFiDirect {
 
             for (int i = 1; i < size; i++) {
                 str.append(", ");
-                str.append(data.get(i).getContent());
+                str.append(data.get(i).toString());
             }
         }
 

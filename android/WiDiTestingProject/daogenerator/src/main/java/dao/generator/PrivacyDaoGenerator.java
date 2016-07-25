@@ -31,5 +31,6 @@ public class PrivacyDaoGenerator {
 
         data.addIdProperty();
         data.addStringProperty("content").notNull();
+        data.addStringProperty("identifier").notNull().unique();
     }
 }

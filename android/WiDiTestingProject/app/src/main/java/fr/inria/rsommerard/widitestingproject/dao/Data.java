@@ -12,6 +12,8 @@ public class Data implements java.io.Serializable {
     private Long id;
     /** Not-null value. */
     private String content;
+    /** Not-null value. */
+    private String identifier;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
@@ -23,9 +25,10 @@ public class Data implements java.io.Serializable {
         this.id = id;
     }
 
-    public Data(Long id, String content) {
+    public Data(Long id, String content, String identifier) {
         this.id = id;
         this.content = content;
+        this.identifier = identifier;
     }
 
     public Long getId() {
@@ -46,10 +49,20 @@ public class Data implements java.io.Serializable {
         this.content = content;
     }
 
+    /** Not-null value. */
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    /** Not-null value; ensure this value is available before it is saved to the database. */
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
     // KEEP METHODS - put your custom methods here
     @Override
     public String toString() {
-        return this.content;
+        return "{" + this.identifier + ", " + this.content + "}";
     }
     // KEEP METHODS END
 

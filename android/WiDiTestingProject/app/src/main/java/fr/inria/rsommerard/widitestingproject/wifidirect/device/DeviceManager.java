@@ -14,6 +14,7 @@ import fr.inria.rsommerard.widitestingproject.dao.DaoSession;
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Random;
 
 import fr.inria.rsommerard.widitestingproject.dao.Device;
 import fr.inria.rsommerard.widitestingproject.dao.DeviceDao;
@@ -22,7 +23,7 @@ public class DeviceManager {
 
     private static final int AVAILABILITY = 120000;
 
-    private final SecureRandom mRandom;
+    private final Random mRandom;
     private final DeviceDao mDeviceDao;
 
     public DeviceManager(final Context context) {
@@ -34,7 +35,8 @@ public class DeviceManager {
 
         mDeviceDao.deleteAll(); // TODO: Delete this line
 
-        mRandom = new SecureRandom();
+        mRandom = new Random();
+        mRandom.setSeed(42L);
     }
 
     public Device getDevice() {

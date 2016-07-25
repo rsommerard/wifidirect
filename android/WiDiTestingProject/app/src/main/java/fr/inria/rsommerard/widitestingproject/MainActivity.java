@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mRandom = new Random();
+        mRandom.setSeed(42L);
 
         try {
             mWiFiDirectManager = new WiFiDirectManager(MainActivity.this);
