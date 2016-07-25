@@ -67,7 +67,7 @@ else:
 
 # build the Android application
 if args.build_android_project or args.build_all:
-    print('Building the android appplication...')
+    print('Building the android application...')
     os.chdir(ANDROID)
     subprocess.call(['./gradlew', 'clean', 'assembleDebug'])
 

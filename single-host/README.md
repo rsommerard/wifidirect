@@ -26,12 +26,20 @@ Specific launching scripts for each container.
 ## Tools
 
 
-### dclean.py
+### dclean-hard.py
 
 Removes the info file and the log folder
 It also kills all running containers and deletes stopped containers.
 
-Usage: `./dclean.py`
+Usage: `./dclean-hard.py`
+
+
+### dclean-soft.py
+
+Removes the info file and the log folder
+It also kills only own running containers and deletes own stopped containers (rsommerard and weaveworks tagged).
+
+Usage: `./dclean-soft.py`
 
 
 ### dstop.py
