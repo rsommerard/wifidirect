@@ -3,7 +3,7 @@ package fr.inria.rsommerard.wifidirect.core.actor
 import java.util.Calendar
 
 import akka.actor.{Actor, ActorRef}
-import fr.inria.rsommerard.wifidirect.core.Scenarii
+import fr.inria.rsommerard.wifidirect.core.BerlinMODScenarii
 import fr.inria.rsommerard.wifidirect.core.message._
 
 import scala.concurrent.duration._
@@ -12,7 +12,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class Master(val nbNodes: Int) extends Actor {
 
   var nodes: Set[ActorRef] = Set()
-  val scenarii: List[Scenario] = Scenarii.getDefaultScenarii
+  val scenarii: List[Scenario] = BerlinMODScenarii.getDefaultScenarii
   var tickValue: Int = -1
   val serviceDiscovery = context.actorSelection("akka.tcp://ServiceDiscoverySystem@10.32.0.43:2552/user/servicediscovery")
 
