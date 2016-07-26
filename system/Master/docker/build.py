@@ -11,14 +11,24 @@ args = parser.parse_args()
 DOCKER = os.getcwd()
 MASTER = str.join('/', DOCKER.split('/')[:-1])
 ZIP = MASTER + '/target/universal/wifidirect-master-1.0.zip'
+DATA = '/home/romain/Lab/wifidirect/misc/data'
 
 os.chdir(MASTER)
 subprocess.call(['sbt', 'clean', 'universal:packageBin'])
+
+if os.path.exists(DOCKER + '/Random.txt'):
+    os.remove(DOCKER + '/Random.txt')
+
+if os.path.exists(DOCKER + '/BerlinMOD.txt'):
+    os.remove(DOCKER + '/BerlinMOD.txt')
 
 if os.path.exists(DOCKER + '/wifidirect-master-1.0.zip'):
     os.remove(DOCKER + '/wifidirect-master-1.0.zip')
 
 shutil.copy(ZIP, DOCKER)
+
+shutil.copy(DATA + '/BerlinMOD.txt', DOCKER)
+shutil.copy(DATA + '/Random.txt', DOCKER)
 
 subprocess.call(['docker', 'build', '-t', 'rsommerard/wifidirect-master', DOCKER])
 

@@ -17,8 +17,6 @@ ZIP = NODE + '/target/universal/wifidirect-node-1.0.zip'
 if os.path.exists(DOCKER + '/app-debug.apk'):
     os.remove(DOCKER + '/app-debug.apk')
 
-shutil.copy(APK, DOCKER)
-
 os.chdir(NODE)
 subprocess.call(['sbt', 'clean', 'universal:packageBin'])
 

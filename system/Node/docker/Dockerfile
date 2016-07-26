@@ -44,7 +44,4 @@ COPY wifidirect-node-1.0.zip .
 RUN unzip wifidirect-node-1.0.zip \
   && rm wifidirect-node-1.0.zip
 
-RUN mkdir /widi
-RUN mkdir /widi/log
-
 ENTRYPOINT ["/entrypoint.sh"]
