@@ -9,8 +9,8 @@ print('Node')
 IP_MASTER = sys.argv[1]
 NB_NODES = sys.argv[2]
 
-print("IP_MASTER = " + str(ip_master))
-print("NB_NODES = " + str(nb_nodes))
+print("IP_MASTER = " + str(IP_MASTER))
+print("NB_NODES = " + str(NB_NODES))
 
 package_activity_name = 'fr.inria.rsommerard.widitestingproject/.MainActivity'
 
