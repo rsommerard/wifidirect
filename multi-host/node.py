@@ -39,7 +39,7 @@ for e in env:
 
 # start node containers
 print("Launching wifidirect-node containers...")
-for i in range(NB_NODES):
+for i in range(int(NB_NODES)):
     process = subprocess.Popen(['docker', 'run', '-d', '--privileged', 'rsommerard/wifidirect-node', package_activity_name], stdout=subprocess.PIPE)
     output = str(process.communicate()[0], 'UTF-8')
 
