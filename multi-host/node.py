@@ -3,6 +3,7 @@
 import subprocess
 import os
 import sys
+import shutil
 
 print('Node')
 
@@ -14,12 +15,13 @@ print("NB_NODES = " + str(NB_NODES))
 
 package_activity_name = 'fr.inria.rsommerard.widitestingproject/.MainActivity'
 
-if not os.path.exists('containers.info'):
-    print('The containers.info file does not exist.')
-    sys.exit(1)
+if os.path.exists('containers.info'):
+    os.remove('containers.info')
 
-if not os.path.exists('log'):
-    os.mkdir('log')
+if os.path.exists('log'):
+    shutil.rmtree('log')
+
+os.mkdir('log')
 
 # launch weave
 print("Launching weave...")
