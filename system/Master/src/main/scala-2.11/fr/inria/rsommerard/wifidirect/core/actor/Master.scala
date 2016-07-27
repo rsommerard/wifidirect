@@ -41,12 +41,12 @@ class Master(val nbNodes: Int) extends Actor {
   }
 
   private def ready(nbReadyNodes: Int): Unit = {
-    println(s"#+# Received Ready from ${sender.path.address.host.get} (${nbReadyNodes + 1}/$nbNodes")
+    println(s"#+# Received Ready from ${sender.path.address.host.get} (${nbReadyNodes + 1}/$nbNodes)")
 
     val nbReady = nbReadyNodes + 1
     if (nbReady == nbNodes) {
       context.become(process())
-      context.system.scheduler.schedule(0 seconds, 1 minute, self, Tick)
+      context.system.scheduler.schedule(0 seconds, 2 minutes, self, Tick)
     } else {
       context.become(initialize(nbReady))
     }
