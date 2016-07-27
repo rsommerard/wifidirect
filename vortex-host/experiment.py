@@ -8,7 +8,7 @@ import time
 
 print('Node')
 
-NB_NODES = sys.argv[2]
+NB_NODES = sys.argv[1]
 
 print("NB_NODES = " + str(NB_NODES))
 
@@ -31,6 +31,14 @@ for e in env:
     name, value = e.split('=')
     if not value.isspace():
         os.environ[name] = value
+
+# start servicediscovery container
+print("Launching wifidirect-servicediscovery container...")
+process = subprocess.Popen(['docker', 'run', '-d', '-e', 'WEAVE_CIDR=10.32.0.43/12', 'rsommerard/wifidirect-servicediscovery'], stdout=subprocess.PIPE)
+output = str(process.communicate()[0], 'UTF-8')
+
+with open('containers.info', 'a+') as f:
+    f.write("ServiceDiscovery=" + output)
 
 # start node containers
 print("Launching wifidirect-node containers...")
