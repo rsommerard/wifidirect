@@ -37,22 +37,16 @@ class ServiceDiscovery extends Actor {
   }
 
   private def tick(t: Tick): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# Tick: ${t.value}")
-    println("#+#+#+#+#")
+    println(s"#+# Tick: ${t.value}")
   }
 
   private def connect(c: Connect): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# Received Connect(${c.weaveIpFrom}, ${c.weaveIpTo}, ${c.groupOwnerIp}) from ${sender.path.address.host.get}")
-    println("#+#+#+#+#")
+    println(s"#+# Received Connect(${c.weaveIpFrom}, ${c.weaveIpTo}, ${c.groupOwnerIp}) from ${sender.path.address.host.get}")
 
     val sel = ipNodes.filter(e => e._2 == c.weaveIpTo)
 
     if (sel.isEmpty) {
-      println("#+#+#+#+#")
-      println(s"#+#+#+#+# No device found")
-      println("#+#+#+#+#")
+      println(s"#+# No device found")
 
       return
     }
@@ -61,16 +55,12 @@ class ServiceDiscovery extends Actor {
   }
 
   private def disconnect(d: Disconnect): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# Received Disconnect(${d.weaveIp}) from ${sender.path.address.host.get}")
-    println("#+#+#+#+#")
+    println(s"#+# Received Disconnect(${d.weaveIp}) from ${sender.path.address.host.get}")
 
     val sel = ipNodes.filter(e => e._2 == d.weaveIp)
 
     if (sel.isEmpty) {
-      println("#+#+#+#+#")
-      println(s"#+#+#+#+# No device found")
-      println("#+#+#+#+#")
+      println(s"#+# No device found")
 
       return
     }
@@ -92,9 +82,7 @@ class ServiceDiscovery extends Actor {
 
   private def neighbors(): Unit = {
     if (!discoverables(sender)) {
-      println("#+#+#+#+#")
-      println(s"#+#+#+#+# ${sender.path.address.host.get} is not discoverable")
-      println("#+#+#+#+#")
+      println(s"#+# ${sender.path.address.host.get} is not discoverable")
 
       return
     }
@@ -102,9 +90,7 @@ class ServiceDiscovery extends Actor {
     val loc: Option[Location] = locations.get(sender)
 
     if (loc.isEmpty) {
-      println("#+#+#+#+#")
-      println(s"#+#+#+#+# No Location found for ${sender.path.address.host.get}")
-      println("#+#+#+#+#")
+      println(s"#+# No Location found for ${sender.path.address.host.get}")
 
       return
     }
@@ -128,9 +114,7 @@ class ServiceDiscovery extends Actor {
   }
 
   private def hello(h: Hello): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# Received Hello(${h.name}) from ${sender.path.address.host.get}")
-    println("#+#+#+#+#")
+    println(s"#+# Received Hello(${h.name}) from ${sender.path.address.host.get}")
   }
 
   private def areInRange(l1: Location, l2: Location): Boolean = {
@@ -149,8 +133,6 @@ class ServiceDiscovery extends Actor {
   }
 
   private def dealWithUnknown(state: String, name: String): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# State $state => Received unknown message ($name)")
-    println("#+#+#+#+#")
+    println(s"#+# State $state => Received unknown message ($name)")
   }
 }

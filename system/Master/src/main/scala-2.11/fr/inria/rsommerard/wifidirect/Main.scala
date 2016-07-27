@@ -14,9 +14,7 @@ object Main extends App {
   val system = ActorSystem("MasterSystem", ConfigFactory.load("master"))
   val master = system.actorOf(Props(classOf[Master], nbNodes), "master")
 
-  println("#+#+#+#+#")
-  println("#+#+#+#+# Master actor started...")
-  println("#+#+#+#+#")
+  println("#+# Master actor started...")
 
   println("Commands available [quit (q) | exit (e), tick (t)]")
   for (ln <- Source.stdin.getLines()) {

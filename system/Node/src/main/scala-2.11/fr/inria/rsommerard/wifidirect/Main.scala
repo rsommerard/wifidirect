@@ -15,7 +15,7 @@ object Main extends App {
 
   val system = ActorSystem("NodeSystem", ConfigFactory.load("node"))
   val node = system.actorOf(Props(classOf[Node], weaveIp, emulator), "node")
-  println("Node actor started...")
+  println("#+# Node actor started...")
 
   emulator.start(node)
 

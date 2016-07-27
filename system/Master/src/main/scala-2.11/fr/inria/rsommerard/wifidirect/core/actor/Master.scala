@@ -30,9 +30,7 @@ class Master(val nbNodes: Int) extends Actor {
   }
 
   private def hello(h: Hello): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# Received Hello(${h.name}) from ${sender.path.address.host.get}")
-    println("#+#+#+#+#")
+    println(s"#+# Received Hello(${h.name}) from ${sender.path.address.host.get}")
 
     sender ! Hello("Master")
 
@@ -43,9 +41,7 @@ class Master(val nbNodes: Int) extends Actor {
   }
 
   private def ready(nbReadyNodes: Int): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# Received Ready from ${sender.path.address.host.get}")
-    println("#+#+#+#+#")
+    println(s"#+# Received Ready from ${sender.path.address.host.get} (${nbReadyNodes + 1}/$nbNodes")
 
     val nbReady = nbReadyNodes + 1
     if (nbReady == nbNodes) {
@@ -59,17 +55,13 @@ class Master(val nbNodes: Int) extends Actor {
   private def tick(): Unit = {
     tickValue += 1
 
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# Tick: $tickValue [${Calendar.getInstance().getTime}]")
-    println("#+#+#+#+#")
+    println(s"#+# Tick: $tickValue [${Calendar.getInstance().getTime}]")
 
     nodes.foreach(n => n ! Tick(tickValue))
     serviceDiscovery ! Tick(tickValue)
   }
 
   private def dealWithUnknown(state: String, name: String): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# State $state => Received unknown message ($name)")
-    println("#+#+#+#+#")
+    println(s"#+# State $state => Received unknown message ($name)")
   }
 }

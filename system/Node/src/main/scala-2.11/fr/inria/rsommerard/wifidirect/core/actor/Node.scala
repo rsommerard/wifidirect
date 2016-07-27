@@ -47,17 +47,13 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   }
 
   private def tick(t: Tick): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# Tick: ${t.value}")
-    println("#+#+#+#+#")
+    println(s"#+# Tick: ${t.value}")
 
     updateLocation()
   }
 
   private def disconnect(d: Disconnect): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# Received Disconnect: $d")
-    println("#+#+#+#+#")
+    println(s"#+# Received Disconnect: $d")
 
     if (d.weaveIp != weaveIp) {
       serviceDiscovery ! d
@@ -65,10 +61,7 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   }
 
   private def connect(c: Connect): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# Received Connect: $c")
-    println("#+#+#+#+#")
-
+    println(s"#+# Received Connect: $c")
 
     c.weaveIpTo match {
       case `weaveIp` => emulator.connectExt(c.weaveIpFrom, c.groupOwnerIp)
@@ -89,9 +82,7 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   private def updateLocation(): Unit = {
     currentScenarioIndex += 1
     if (currentScenarioIndex >= scenario.locations.size) {
-      println("#+#+#+#+#")
-      println(s"#+#+#+#+# No more locations to set")
-      println("#+#+#+#+#")
+      println(s"#+# No more locations to set")
 
       return
     }
@@ -104,9 +95,7 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   private def neighbors(nghbrs: Neighbors): Unit = {
     neighbors = nghbrs.values.filter(n => n.weaveIp != emulator.weaveIp)
 
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# ${neighbors.size} neighbors: $neighbors")
-    println("#+#+#+#+#")
+    println(s"#+# ${neighbors.size} neighbors: $neighbors")
 
     emulator.updateNeighbors(neighbors)
     emulator.sendPeersChangedIntent()
@@ -117,14 +106,10 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   }
 
   private def hello(h: Hello): Unit =  {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# Received Hello: $h")
-    println("#+#+#+#+#")
+    println(s"#+# Received Hello: $h")
   }
 
   private def dealWithUnknown(state: String, name: String): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# State $state => Received unknown message ($name)")
-    println("#+#+#+#+#")
+    println(s"#+# State $state => Received unknown message ($name)")
   }
 }

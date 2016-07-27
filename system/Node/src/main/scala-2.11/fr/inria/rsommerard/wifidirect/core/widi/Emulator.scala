@@ -25,9 +25,7 @@ object Emulator {
   }
 
   def setGPSLocation(lon: Double, lat: Double): Unit = {
-    println("#+#+#+#+#")
-    println("#+#+#+#+# Change GPS location to " + lon + " " + lat)
-    println("#+#+#+#+#")
+    println("#+# Change GPS location to " + lon + " " + lat)
 
     val tn = new TelnetClient
     tn.connect("localhost", 5554)
@@ -296,9 +294,7 @@ class Emulator(val weaveIp: String) {
 
     var ack = receive()
     if (Protocol.ACK != ack) {
-      println("#+#+#+#+#")
-      println(s"#+#+#+#+# Error when sending dnsSdServiceResponses")
-      println("#+#+#+#+#")
+      println(s"#+# Error when sending dnsSdServiceResponses")
 
       return
     }
@@ -309,15 +305,11 @@ class Emulator(val weaveIp: String) {
 
     ack = receive()
     if (Protocol.ACK != ack) {
-      println("#+#+#+#+#")
-      println(s"#+#+#+#+# Error when sending dnsSdTxtRecords")
-      println("#+#+#+#+#")
+      println(s"#+# Error when sending dnsSdTxtRecords")
     }
   }
 
   def unknown(u: Any): Unit = {
-    println("#+#+#+#+#")
-    println(s"#+#+#+#+# unknown: $u")
-    println("#+#+#+#+#")
+    println(s"#+# Unknown: $u")
   }
 }

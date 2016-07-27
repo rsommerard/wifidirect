@@ -9,7 +9,5 @@ object Main extends App {
   val system = ActorSystem("ServiceDiscoverySystem", ConfigFactory.load("servicediscovery"))
   val serviceDiscovery = system.actorOf(Props[ServiceDiscovery], "servicediscovery")
 
-  println("#+#+#+#+#")
-  println("#+#+#+#+# ServiceDiscovery actor started...")
-  println("#+#+#+#+#")
+  println("#+# ServiceDiscovery actor started...")
 }
