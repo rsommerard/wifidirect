@@ -40,6 +40,18 @@ output = str(process.communicate()[0], 'UTF-8')
 with open('containers.info', 'a+') as f:
     f.write("ServiceDiscovery=" + output)
 
+time.sleep(3)
+
+# start ui container
+print("Launching wifidirect-ui container...")
+process = subprocess.Popen(['docker', 'run', '-d', '-p', '3012:8080', 'rsommerard/wifidirect-ui'], stdout=subprocess.PIPE)
+output = str(process.communicate()[0], 'UTF-8')
+
+with open('containers.info', 'a+') as f:
+    f.write("UI=" + output)
+
+time.sleep(3)
+
 # start node containers
 print("Launching wifidirect-node containers...")
 for i in range(int(NB_NODES)):
@@ -50,4 +62,4 @@ for i in range(int(NB_NODES)):
     with open('containers.info', 'a+') as f:
         f.write("Node=" + output)
 
-    print('Node ' + str(i + 1) + ' launched...')
+print(str(i + 1) + ' nodes launched.')

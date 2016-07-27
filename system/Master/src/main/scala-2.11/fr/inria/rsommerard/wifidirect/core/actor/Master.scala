@@ -50,7 +50,7 @@ class Master(val nbNodes: Int) extends Actor {
     val nbReady = nbReadyNodes + 1
     if (nbReady == nbNodes) {
       context.become(process())
-      context.system.scheduler.schedule(0 seconds, 10 seconds, self, Tick)
+      context.system.scheduler.schedule(0 seconds, 1 minute, self, Tick)
     } else {
       context.become(initialize(nbReady))
     }
