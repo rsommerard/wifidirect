@@ -3,9 +3,6 @@ package fr.inria.rsommerard.widitestingproject;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Random;
@@ -43,14 +40,14 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 mWiFiDirectManager.process();
             }
-        }, mRandom.nextInt(100000), 110000, TimeUnit.MILLISECONDS);
+        }, mRandom.nextInt(100000), 30000, TimeUnit.MILLISECONDS);
 
         executor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
                 mWiFiDirectManager.printData();
             }
-        }, mRandom.nextInt(100000), 110000, TimeUnit.MILLISECONDS);
+        }, 0, 30000, TimeUnit.MILLISECONDS);
 
         /*Button startButton = (Button) findViewById(R.id.button_start);
         assert startButton != null;

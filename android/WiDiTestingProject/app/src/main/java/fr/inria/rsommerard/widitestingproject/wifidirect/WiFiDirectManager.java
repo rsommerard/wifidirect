@@ -55,6 +55,7 @@ public class WiFiDirectManager {
 
     public void process() {
         if (mDeviceManager.hasDevices() && mDataManager.hasData()) {
+            Log.d(WiDi.TAG, "Trying to connect");
             mConnectionManager.connect(mDeviceManager.getDevice());
         } else {
             Log.d(WiDi.TAG, "No device or data to send available");

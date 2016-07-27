@@ -21,7 +21,7 @@ import fr.inria.rsommerard.widitestingproject.dao.DeviceDao;
 
 public class DeviceManager {
 
-    private static final int AVAILABILITY = 120000;
+    private static final int AVAILABILITY = 60000;
 
     private final Random mRandom;
     private final DeviceDao mDeviceDao;

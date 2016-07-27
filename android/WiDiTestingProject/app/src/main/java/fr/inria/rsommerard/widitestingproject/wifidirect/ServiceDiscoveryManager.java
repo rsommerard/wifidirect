@@ -29,7 +29,7 @@ public class ServiceDiscoveryManager {
     private static final String SERVICE_NAME = "_rsp2p";
     private static final String SERVICE_TYPE = "_tcp";
 
-    private static final int SERVICE_DISCOVERY_INTERVAL =  17000;
+    private static final int SERVICE_DISCOVERY_INTERVAL =  11000;
 
     private final DeviceManager mDeviceManager;
     private WifiP2pDnsSdServiceInfo mWifiP2pDnsSdServiceInfo;
