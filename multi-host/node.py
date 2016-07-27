@@ -23,6 +23,17 @@ if os.path.exists('log'):
 
 os.mkdir('log')
 
+# check and install weave or reset if already installed
+weave = shutil.which('weave')
+
+if weave == None:
+    print('Installing weave...')
+    subprocess.call(['sudo', 'curl', '-L', 'git.io/weave', '-o', '/usr/local/bin/weave'])
+    subprocess.call(['sudo', 'chmod', '+x', '/usr/local/bin/weave'])
+else:
+    print('Reseting weave...')
+    subprocess.call(['weave', 'reset'])
+
 # launch weave
 print("Launching weave...")
 subprocess.call(['weave', 'launch', IP_MASTER])
@@ -40,6 +51,7 @@ for e in env:
 # start node containers
 print("Launching wifidirect-node containers...")
 for i in range(int(NB_NODES)):
+    time.sleep(3)
     process = subprocess.Popen(['docker', 'run', '-d', '--privileged', 'rsommerard/wifidirect-node', package_activity_name], stdout=subprocess.PIPE)
     output = str(process.communicate()[0], 'UTF-8')
 

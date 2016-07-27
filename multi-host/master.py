@@ -10,7 +10,7 @@ NB_NODES = sys.argv[1]
 
 # launch weave
 print("Launching weave...")
-subprocess.call(['weave', 'launch'])
+subprocess.call(['weave', 'launch', '193.51.236.177'])
 
 # set weave env before launching containers
 print("Setting weave env...")
