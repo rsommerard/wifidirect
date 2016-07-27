@@ -12,7 +12,7 @@ filelist = [ f for f in os.listdir() if f.endswith('.log') or f.endswith('.info'
 for f in filelist:
     os.remove(f)
 
-print('Sopping running containers...')
+print('Stopping running containers...')
 process = subprocess.Popen(['docker', 'ps', '-a'], stdout=subprocess.PIPE)
 output = str(process.communicate()[0], 'UTF-8')
 lines = output.strip().split('\n')
