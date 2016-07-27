@@ -36,7 +36,10 @@ else:
 
 # launch weave
 print("Launching weave...")
-subprocess.call(['weave', 'launch', IP_MASTER])
+if len(IP_MASTER) == 0:
+    subprocess.call(['weave', 'launch'])
+else:
+    subprocess.call(['weave', 'launch', IP_MASTER])
 
 # set weave env before launching containers
 print("Setting weave env...")

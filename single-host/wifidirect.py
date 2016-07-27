@@ -7,14 +7,15 @@ import time
 import argparse
 import sys
 
-SCRIPTS = '/home/romain/Lab/wifidirect/single-host'
-MASTER = '/home/romain/Lab/wifidirect/system/Master'
-NODE = '/home/romain/Lab/wifidirect/system/Node'
-UI = '/home/romain/Lab/wifidirect/system/UI'
-SERVICE_DISCOVERY = '/home/romain/Lab/wifidirect/system/ServiceDiscovery'
+ROOT = '/home/romain/Lab/wifidirect'
+SCRIPTS = ROOT + '/single-host'
+MASTER = ROOT + '/system/Master'
+NODE = ROOT + '/system/Node'
+UI = ROOT + '/system/UI'
+SERVICE_DISCOVERY = ROOT + '/system/ServiceDiscovery'
 
-# ANDROID = '/home/romain/Lab/wifidirect/android/GPSLocation/'
-ANDROID = '/home/romain/Lab/wifidirect/android/WiDiTestingProject/'
+# ANDROID = ROOT + '/android/GPSLocation/'
+ANDROID = ROOT + '/android/WiDiTestingProject/'
 # APK = ANDROID + 'app/build/outputs/apk/app-debug.apk'
 APK = ANDROID + 'app/build/outputs/apk/app-debug.apk'
 

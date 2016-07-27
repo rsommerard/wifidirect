@@ -5,7 +5,8 @@ import time
 
 print('UI')
 
-VIEWER = '/home/romain/Lab/wifidirect/viewer'
+ROOT = '/home/romain/Lab/wifidirect'
+VIEWER = ROOT + '/viewer'
 
 # set weave env before launching containers
 print("Setting weave env...")
