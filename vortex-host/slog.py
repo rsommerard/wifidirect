@@ -23,7 +23,6 @@ if 'rsommerard/wifidirect-master' in output:
         if 'rsommerard/wifidirect-master' in entry:
             with open('containers.info', 'a+') as f:
                 f.write("Master=" + entry.split()[0])
-            break
 
 with open('containers.info', 'r') as f:
     content = f.read().strip()
