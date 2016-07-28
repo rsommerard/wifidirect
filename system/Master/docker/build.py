@@ -22,6 +22,9 @@ if os.path.exists(DOCKER + '/Random.txt'):
 if os.path.exists(DOCKER + '/BerlinMOD.txt'):
     os.remove(DOCKER + '/BerlinMOD.txt')
 
+    if os.path.exists(DOCKER + '/Test.txt'):
+        os.remove(DOCKER + '/Test.txt')
+
 if os.path.exists(DOCKER + '/wifidirect-master-1.0.zip'):
     os.remove(DOCKER + '/wifidirect-master-1.0.zip')
 
@@ -29,6 +32,7 @@ shutil.copy(ZIP, DOCKER)
 
 shutil.copy(DATA + '/BerlinMOD.txt', DOCKER)
 shutil.copy(DATA + '/Random.txt', DOCKER)
+shutil.copy(DATA + '/Test.txt', DOCKER)
 
 subprocess.call(['docker', 'build', '-t', 'rsommerard/wifidirect-master', DOCKER])
 
