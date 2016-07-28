@@ -14,6 +14,7 @@ COPY entrypoint.sh .
 RUN mkdir /data
 COPY Random.txt /data
 COPY BerlinMOD.txt /data
+COPY Test.txt /data
 
 RUN unzip wifidirect-master-1.0.zip && rm wifidirect-master-1.0.zip
 
