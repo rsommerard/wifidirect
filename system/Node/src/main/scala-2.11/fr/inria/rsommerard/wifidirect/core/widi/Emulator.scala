@@ -2,6 +2,7 @@ package fr.inria.rsommerard.wifidirect.core.widi
 
 import java.io.{ObjectInputStream, ObjectOutputStream, PrintStream}
 import java.net._
+import java.util.Calendar
 
 import akka.actor.ActorRef
 import fr.inria.rsommerard.wifidirect.core.message._
@@ -25,7 +26,7 @@ object Emulator {
   }
 
   def setGPSLocation(lon: Double, lat: Double): Unit = {
-    println("#+# Change GPS location to " + lon + " " + lat)
+    println(s"[${Calendar.getInstance().getTime}] New GPS location " + lon + " " + lat)
 
     val tn = new TelnetClient
     tn.connect("localhost", 5554)
@@ -294,7 +295,7 @@ class Emulator(val weaveIp: String) {
 
     var ack = receive()
     if (Protocol.ACK != ack) {
-      println(s"#+# Error when sending dnsSdServiceResponses")
+      println(s"[${Calendar.getInstance().getTime}] Error when sending dnsSdServiceResponses")
 
       return
     }
@@ -305,11 +306,11 @@ class Emulator(val weaveIp: String) {
 
     ack = receive()
     if (Protocol.ACK != ack) {
-      println(s"#+# Error when sending dnsSdTxtRecords")
+      println(s"[${Calendar.getInstance().getTime}] Error when sending dnsSdTxtRecords")
     }
   }
 
   def unknown(u: Any): Unit = {
-    println(s"#+# Unknown: $u")
+    println(s"[${Calendar.getInstance().getTime}] Unknown: $u")
   }
 }

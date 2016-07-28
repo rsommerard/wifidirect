@@ -1,3 +1,5 @@
+import java.util.Calendar
+
 import akka.actor.ActorSystem
 import spray.http.StatusCodes
 import spray.routing.SimpleRoutingApp
@@ -40,7 +42,7 @@ object Main extends App with SimpleRoutingApp {
             complete(write(locations))
 
           case Failure(ex) =>
-            complete(StatusCodes.InternalServerError, s"An error occurred: ${ex.getMessage}")
+            complete(StatusCodes.InternalServerError, s"[${Calendar.getInstance().getTime}] An error occurred: ${ex.getMessage}")
         }
       }
     }

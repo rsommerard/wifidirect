@@ -1,5 +1,7 @@
 package fr.inria.rsommerard.wifidirect.core.actor
 
+import java.util.Calendar
+
 import akka.actor.{Actor, ActorRef}
 import fr.inria.rsommerard.wifidirect.core.message._
 import fr.inria.rsommerard.wifidirect.core.widi.Emulator
@@ -47,13 +49,13 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   }
 
   private def tick(t: Tick): Unit = {
-    println(s"#+# Tick: ${t.value}")
+    println(s"[${Calendar.getInstance().getTime}] Tick: ${t.value}")
 
     updateLocation()
   }
 
   private def disconnect(d: Disconnect): Unit = {
-    println(s"#+# Received Disconnect: $d")
+    println(s"[${Calendar.getInstance().getTime}] Received Disconnect: $d")
 
     if (d.weaveIp != weaveIp) {
       serviceDiscovery ! d
@@ -61,7 +63,7 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   }
 
   private def connect(c: Connect): Unit = {
-    println(s"#+# Received Connect: $c")
+    println(s"[${Calendar.getInstance().getTime}] Received Connect: $c")
 
     c.weaveIpTo match {
       case `weaveIp` => emulator.connectExt(c.weaveIpFrom, c.groupOwnerIp)
@@ -82,7 +84,7 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   private def updateLocation(): Unit = {
     currentScenarioIndex += 1
     if (currentScenarioIndex >= scenario.locations.size) {
-      println(s"#+# No more locations to set")
+      println(s"[${Calendar.getInstance().getTime}] Warning: No more locations to set")
 
       return
     }
@@ -95,7 +97,7 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   private def neighbors(nghbrs: Neighbors): Unit = {
     neighbors = nghbrs.values.filter(n => n.weaveIp != emulator.weaveIp)
 
-    println(s"#+# ${neighbors.size} neighbors: $neighbors")
+    println(s"[${Calendar.getInstance().getTime}] ${neighbors.size} neighbors: $neighbors")
 
     emulator.updateNeighbors(neighbors)
     emulator.sendPeersChangedIntent()
@@ -106,10 +108,10 @@ class Node(val weaveIp: String, val emulator: Emulator) extends Actor {
   }
 
   private def hello(h: Hello): Unit =  {
-    println(s"#+# Received Hello: $h")
+    //println(s"[${Calendar.getInstance().getTime}] Received Hello: $h")
   }
 
   private def dealWithUnknown(state: String, name: String): Unit = {
-    println(s"#+# State $state => Received unknown message ($name)")
+    println(s"[${Calendar.getInstance().getTime}] Error: received unknown message ($name) during state ($state)")
   }
 }

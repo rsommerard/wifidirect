@@ -1,5 +1,7 @@
 package fr.inria.rsommerard.wifidirect
 
+import java.util.Calendar
+
 import akka.actor.{ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 import fr.inria.rsommerard.wifidirect.core.actor.Node
@@ -15,7 +17,7 @@ object Main extends App {
 
   val system = ActorSystem("NodeSystem", ConfigFactory.load("node"))
   val node = system.actorOf(Props(classOf[Node], weaveIp, emulator), "node")
-  println("#+# Node actor started...")
+  println(s"[${Calendar.getInstance().getTime}] Node actor started...")
 
   emulator.start(node)
 

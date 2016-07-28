@@ -3,7 +3,7 @@ package fr.inria.rsommerard.wifidirect.core.actor
 import java.util.Calendar
 
 import akka.actor.{Actor, ActorRef}
-import fr.inria.rsommerard.wifidirect.core.BerlinMODScenarii
+import fr.inria.rsommerard.wifidirect.core.TestScenarii
 import fr.inria.rsommerard.wifidirect.core.message._
 
 import scala.concurrent.duration._
@@ -12,9 +12,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class Master(val nbNodes: Int) extends Actor {
 
   var nodes: Set[ActorRef] = Set()
-  val scenarii: List[Scenario] = BerlinMODScenarii.getDefaultScenarii
+  val scenarii: List[Scenario] = TestScenarii.getDefaultScenarii
   var tickValue: Int = -1
   val serviceDiscovery = context.actorSelection("akka.tcp://ServiceDiscoverySystem@10.32.0.43:2552/user/servicediscovery")
+  val interval = 2
 
   override def receive: Receive = initialize(0)
 
@@ -30,7 +31,7 @@ class Master(val nbNodes: Int) extends Actor {
   }
 
   private def hello(h: Hello): Unit = {
-    println(s"#+# Received Hello(${h.name}) from ${sender.path.address.host.get}")
+    //println(s"[${Calendar.getInstance().getTime}] Received Hello(${h.name}) from ${sender.path.address.host.get}")
 
     sender ! Hello("Master")
 
@@ -41,12 +42,13 @@ class Master(val nbNodes: Int) extends Actor {
   }
 
   private def ready(nbReadyNodes: Int): Unit = {
-    println(s"#+# Received Ready from ${sender.path.address.host.get} (${nbReadyNodes + 1}/$nbNodes)")
+    //println(s"[${Calendar.getInstance().getTime}] Received Ready from ${sender.path.address.host.get} (${nbReadyNodes + 1}/$nbNodes)")
 
     val nbReady = nbReadyNodes + 1
     if (nbReady == nbNodes) {
       context.become(process())
-      context.system.scheduler.schedule(0 seconds, 2 minutes, self, Tick)
+      println(s"[${Calendar.getInstance().getTime}] Starting process with $interval minutes between each tick")
+      context.system.scheduler.schedule(0 seconds, interval minutes, self, Tick)
     } else {
       context.become(initialize(nbReady))
     }
@@ -55,13 +57,13 @@ class Master(val nbNodes: Int) extends Actor {
   private def tick(): Unit = {
     tickValue += 1
 
-    println(s"#+# Tick: $tickValue [${Calendar.getInstance().getTime}]")
+    println(s"[${Calendar.getInstance().getTime}] Tick: $tickValue")
 
     nodes.foreach(n => n ! Tick(tickValue))
     serviceDiscovery ! Tick(tickValue)
   }
 
   private def dealWithUnknown(state: String, name: String): Unit = {
-    println(s"#+# State $state => Received unknown message ($name)")
+    println(s"[${Calendar.getInstance().getTime}] Error: received unknown message ($name) during state ($state)")
   }
 }

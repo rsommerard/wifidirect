@@ -1,5 +1,7 @@
 package fr.inria.rsommerard.wifidirect.core.actor
 
+import java.util.Calendar
+
 import akka.actor.{Actor, ActorRef}
 import fr.inria.rsommerard.wifidirect.core.message._
 
@@ -37,17 +39,16 @@ class ServiceDiscovery extends Actor {
   }
 
   private def tick(t: Tick): Unit = {
-    println(s"#+# Tick: ${t.value}")
+    println(s"[${Calendar.getInstance().getTime}] Tick: ${t.value}")
   }
 
   private def connect(c: Connect): Unit = {
-    println(s"#+# Received Connect(${c.weaveIpFrom}, ${c.weaveIpTo}, ${c.groupOwnerIp}) from ${sender.path.address.host.get}")
+    println(s"[${Calendar.getInstance().getTime}] Received Connect request: from ${c.weaveIpFrom} to ${c.weaveIpTo} with groupOwner ${c.groupOwnerIp}")
 
     val sel = ipNodes.filter(e => e._2 == c.weaveIpTo)
 
     if (sel.isEmpty) {
-      println(s"#+# No device found")
-
+      println(s"[${Calendar.getInstance().getTime}] Warning: No device found")
       return
     }
 
@@ -55,13 +56,12 @@ class ServiceDiscovery extends Actor {
   }
 
   private def disconnect(d: Disconnect): Unit = {
-    println(s"#+# Received Disconnect(${d.weaveIp}) from ${sender.path.address.host.get}")
+    println(s"[${Calendar.getInstance().getTime}] Received Disconnect request from ${d.weaveIp}")
 
     val sel = ipNodes.filter(e => e._2 == d.weaveIp)
 
     if (sel.isEmpty) {
-      println(s"#+# No device found")
-
+      println(s"[${Calendar.getInstance().getTime}] Warning: No device found")
       return
     }
 
@@ -82,16 +82,14 @@ class ServiceDiscovery extends Actor {
 
   private def neighbors(): Unit = {
     if (!discoverables(sender)) {
-      println(s"#+# ${sender.path.address.host.get} is not discoverable")
-
+      println(s"[${Calendar.getInstance().getTime}] Warning: ${sender.path.address.host.get} is not discoverable")
       return
     }
 
     val loc: Option[Location] = locations.get(sender)
 
     if (loc.isEmpty) {
-      println(s"#+# No Location found for ${sender.path.address.host.get}")
-
+      println(s"[${Calendar.getInstance().getTime}] Warning: No Location found for ${sender.path.address.host.get}")
       return
     }
 
@@ -114,7 +112,7 @@ class ServiceDiscovery extends Actor {
   }
 
   private def hello(h: Hello): Unit = {
-    println(s"#+# Received Hello(${h.name}) from ${sender.path.address.host.get}")
+    //println(s"[${Calendar.getInstance().getTime}] Received Hello(${h.name}) from ${sender.path.address.host.get}")
   }
 
   private def areInRange(l1: Location, l2: Location): Boolean = {
@@ -133,6 +131,6 @@ class ServiceDiscovery extends Actor {
   }
 
   private def dealWithUnknown(state: String, name: String): Unit = {
-    println(s"#+# State $state => Received unknown message ($name)")
+    println(s"[${Calendar.getInstance().getTime}] Error: received unknown message ($name) during state ($state)")
   }
 }

@@ -119,14 +119,14 @@ public class Active extends Thread implements Runnable {
         objectOutputStream.writeObject(message);
         objectOutputStream.flush();
 
-        Log.i(WiDi.TAG, message + " sent");
+        Log.i(WiDi.TAG, "Message " + message + " sent");
     }
 
     private void waitAndCheck(final Socket socket, final String message) throws IOException, ClassNotFoundException {
         ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
         String received = (String) objectInputStream.readObject();
 
-        Log.i(WiDi.TAG, received + " received");
+        Log.i(WiDi.TAG, "Message " + received + " received");
 
         if (!message.equals(received)) {
             closeSocket(socket);

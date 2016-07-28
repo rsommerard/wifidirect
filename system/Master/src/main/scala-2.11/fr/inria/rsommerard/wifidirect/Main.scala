@@ -1,5 +1,7 @@
 package fr.inria.rsommerard.wifidirect
 
+import java.util.Calendar
+
 import akka.actor.{ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 import fr.inria.rsommerard.wifidirect.core.actor.Master
@@ -14,7 +16,7 @@ object Main extends App {
   val system = ActorSystem("MasterSystem", ConfigFactory.load("master"))
   val master = system.actorOf(Props(classOf[Master], nbNodes), "master")
 
-  println("#+# Master actor started...")
+  println(s"[${Calendar.getInstance().getTime}] Master actor started...")
 
   println("Commands available [quit (q) | exit (e), tick (t)]")
   for (ln <- Source.stdin.getLines()) {
