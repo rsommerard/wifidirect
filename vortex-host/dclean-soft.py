@@ -8,6 +8,9 @@ print('Cleaning info file and log folder....')
 if os.path.exists('log'):
     shutil.rmtree('log')
 
+if os.path.exists('log.zip'):
+    os.remove('log.zip')
+
 filelist = [ f for f in os.listdir() if f.endswith('.log') or f.endswith('.info') ]
 for f in filelist:
     os.remove(f)
